@@ -4,6 +4,10 @@
 /.idea/libraries
 .DS_Store
 /build
-
 *.iml
+
+# emacs
 *~
+
+# build and install script
+make_install.sh

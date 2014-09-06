@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CompetitionTool.iml" filepath="$PROJECT_DIR$/CompetitionTool.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/wingman/wingman.iml" filepath="$PROJECT_DIR$/wingman/wingman.iml" />
     </modules>
   </component>
