@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:background="@color/green"
+        android:textColor="@color/black"
         android:visibility="gone"
         android:textAppearance="@style/InspectionDisplayTextStyle"/>
 

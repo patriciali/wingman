@@ -20,10 +20,12 @@ public class DashboardActivity extends Activity {
 
     private static final String TAG = "DashboardActivity";
 
-    // I could move these to arrays.xml, but this is temporary anyway. Also, I don't care
-    private static final String PACKAGE_NAME_PREFIX = "com.patriciasays.wingman.activity.";
     private static final String[] DASHBOARD_ITEMS = {"Inspection Tool"};
-    private static final String[] DASHBOARD_ACTIVITIES = {"InspectionActivity"};
+    private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES =
+            new Class[] {InspectionActivity.class};
+
+    static {
+    }
 
     private ListView mListView;
     private ListAdapter mListAdapter;
@@ -44,14 +46,8 @@ public class DashboardActivity extends Activity {
                     Log.e(TAG, "Not enough items in dashboard array; position " + position);
                 } else {
                     Context context = view.getContext();
-                    String className = PACKAGE_NAME_PREFIX + DASHBOARD_ACTIVITIES[position];
-                    Intent intent = null;
-                    try {
-                        intent = new Intent(context, Class.forName(className));
-                        context.startActivity(intent);
-                    } catch (ClassNotFoundException e) {
-                        Log.e(TAG, "Class not found for name " + className);
-                    }
+                    Intent intent = new Intent(context, DASHBOARD_ACTIVITIES[position]);
+                    context.startActivity(intent);
                 }
             }
         });
