@@ -3,7 +3,7 @@ package com.patriciasays.wingman.util;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Stopwatch {
+public class Stopwatch implements Parcelable {
 
     public enum TimerState {
         NOT_RUNNING,
@@ -81,5 +81,32 @@ public class Stopwatch {
         }
         return TimerState.NO_WARNING;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mStartTime);
+        dest.writeLong(mStopTime);
+        dest.writeBooleanArray(new boolean[]{mIsRunning});
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Stopwatch createFromParcel(Parcel in) {
+            long startTime = in.readLong();
+            long stopTime = in.readLong();
+            boolean[] isRunning = new boolean[1];
+            in.readBooleanArray(isRunning);
+
+            return new Stopwatch(startTime, stopTime, isRunning[0]);
+        }
+
+        public Stopwatch[] newArray(int size) {
+            return new Stopwatch[size];
+        }
+    };
 
 }

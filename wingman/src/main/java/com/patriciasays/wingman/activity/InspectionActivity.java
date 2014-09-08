@@ -17,6 +17,10 @@ public class InspectionActivity extends Activity implements View.OnTouchListener
 
     private static final String TAG = "InspectionActivity";
 
+    private static final String STOPWATCH_BUNDLE_KEY = "stopwatch_bundle_key";
+    private static final String BACKGROUNDCOLOR_BUNDLE_KEY = "backgroundcolor_bundle_key";
+    private static final String DISPLAYTEXT_BUNDLE_KEY = "displaytext_bundle_key";
+
     private static final int REFRESH_RATE_MILLIS = 50;
     private static final int VIBRATE_DURATION_MILLIS = 1000;
 
@@ -31,6 +35,7 @@ public class InspectionActivity extends Activity implements View.OnTouchListener
 
     private Stopwatch.TimerState mTimerState;
     private boolean mShouldStartOnNextUpTouch;
+    private int mBackgroundColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,6 @@ public class InspectionActivity extends Activity implements View.OnTouchListener
         mInspectionEnterMessage.setOnTouchListener(this);
         mInspectionTimeDisplay.setOnTouchListener(this);
 
-        mStopwatch = new Stopwatch();
         mVibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
         mHandler = new Handler();
         mDisplayRunnable = new Runnable() {
@@ -64,12 +68,55 @@ public class InspectionActivity extends Activity implements View.OnTouchListener
 
         mTimerState = Stopwatch.TimerState.NOT_RUNNING;
         mShouldStartOnNextUpTouch = true;
+
+        if (savedInstanceState == null || !savedInstanceState.containsKey(STOPWATCH_BUNDLE_KEY)) {
+            mStopwatch = new Stopwatch();
+            mBackgroundColor = getResources().getColor(R.color.green);
+        } else {
+            mInspectionEnterMessage.setVisibility(View.GONE);
+            mInspectionTimeDisplay.setVisibility(View.VISIBLE);
+
+            mStopwatch = savedInstanceState.getParcelable(STOPWATCH_BUNDLE_KEY);
+            mBackgroundColor = savedInstanceState.getInt(BACKGROUNDCOLOR_BUNDLE_KEY);
+
+            mInspectionTimeDisplay.setBackgroundColor(mBackgroundColor);
+            mInspectionTimeDisplay.setText(savedInstanceState.getString(DISPLAYTEXT_BUNDLE_KEY));
+
+            if (mStopwatch.isRunning()) {
+                mHandler.postDelayed(mDisplayRunnable, REFRESH_RATE_MILLIS);
+                for (int warningTime : Stopwatch.WARNING_TIMES_MILLIS) {
+                    long delayed = warningTime - VIBRATE_DURATION_MILLIS
+                            - mStopwatch.getElapsedTimeMillis();
+                    if (delayed > 0) {
+                        mHandler.postDelayed(mVibrateRunnable, delayed);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mInspectionEnterMessage.getVisibility() == View.GONE) {
+            outState.putParcelable(STOPWATCH_BUNDLE_KEY, mStopwatch);
+            outState.putInt(BACKGROUNDCOLOR_BUNDLE_KEY, mBackgroundColor);
+            outState.putString(DISPLAYTEXT_BUNDLE_KEY, (String) mInspectionTimeDisplay.getText());
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeAllCallbacks();
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            mInspectionTimeDisplay.setTextColor(getResources().getColor(R.color.grey));
+            mInspectionTimeDisplay.setTextColor(getTextColor(true));
+
             if (mStopwatch.isRunning()) {
                 stopTimer();
                 mShouldStartOnNextUpTouch = false;
@@ -80,7 +127,8 @@ public class InspectionActivity extends Activity implements View.OnTouchListener
         }
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            mInspectionTimeDisplay.setTextColor(getResources().getColor(R.color.black));
+            mInspectionTimeDisplay.setTextColor(getTextColor(false));
+
             if (!mStopwatch.isRunning() && mShouldStartOnNextUpTouch) {
                 startTimer();
             }
@@ -104,13 +152,17 @@ public class InspectionActivity extends Activity implements View.OnTouchListener
     }
 
     private void stopTimer() {
-        mHandler.removeCallbacks(mDisplayRunnable);
-        mHandler.removeCallbacks(mVibrateRunnable);
+        removeAllCallbacks();
         if (mTimerState != Stopwatch.TimerState.DNF) {
             updateDisplayAndColor(); // so Jeremy can't thread the needle anymore
         }
         mStopwatch.stop();
         mTimerState = Stopwatch.TimerState.NOT_RUNNING;
+    }
+
+    private void removeAllCallbacks() {
+        mHandler.removeCallbacks(mDisplayRunnable);
+        mHandler.removeCallbacks(mVibrateRunnable);
     }
 
     private void updateDisplayAndColor() {
@@ -127,30 +179,25 @@ public class InspectionActivity extends Activity implements View.OnTouchListener
                     break;
 
                 case NO_WARNING:
-                    mInspectionTimeDisplay.setBackgroundColor(
-                            getResources().getColor(R.color.green));
+                    mBackgroundColor = getResources().getColor(R.color.green);
                     break;
 
                 case FIRST_WARNING:
-                    mInspectionTimeDisplay.setBackgroundColor(
-                            getResources().getColor(R.color.yellow));
+                    mBackgroundColor = getResources().getColor(R.color.yellow);
                     break;
 
                 case SECOND_WARNING:
-                    mInspectionTimeDisplay.setBackgroundColor(
-                            getResources().getColor(R.color.orange));
+                    mBackgroundColor = getResources().getColor(R.color.orange);
                     break;
 
                 case PLUS_TWO:
-                    mInspectionTimeDisplay.setBackgroundColor(
-                            getResources().getColor(R.color.red));
+                    mBackgroundColor = getResources().getColor(R.color.red);
                     break;
 
                 case DNF:
                     mInspectionTimeDisplay.setText(
                             getResources().getString(R.string.inspection_dnf_message));
-                    mInspectionTimeDisplay.setBackgroundColor(
-                            getResources().getColor(R.color.dark_red));
+                    mBackgroundColor = getResources().getColor(R.color.dark_red);
                     stopTimer();
                     break;
 
@@ -159,8 +206,17 @@ public class InspectionActivity extends Activity implements View.OnTouchListener
                             + "; not handled");
                     break;
             }
+
+            mInspectionTimeDisplay.setBackgroundColor(mBackgroundColor);
         }
 
+    }
+
+    private int getTextColor(boolean isPressed) {
+        if (isPressed) {
+            return getResources().getColor(R.color.grey);
+        }
+        return getResources().getColor(R.color.black);
     }
 
 }

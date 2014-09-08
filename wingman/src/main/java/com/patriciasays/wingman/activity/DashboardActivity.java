@@ -24,9 +24,6 @@ public class DashboardActivity extends Activity {
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES =
             new Class[] {InspectionActivity.class};
 
-    static {
-    }
-
     private ListView mListView;
     private ListAdapter mListAdapter;
 
