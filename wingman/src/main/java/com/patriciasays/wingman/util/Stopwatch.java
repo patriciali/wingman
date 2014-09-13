@@ -62,7 +62,7 @@ public class Stopwatch implements Parcelable {
     }
 
     public TimerState getTimerState() {
-        if (!isRunning()) {
+        if (!mIsRunning) {
             return TimerState.NOT_RUNNING;
         }
 
