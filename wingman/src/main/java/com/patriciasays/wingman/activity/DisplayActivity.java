@@ -1,9 +1,7 @@
 package com.patriciasays.wingman.activity;
 
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.jflei.fskube.FSKubeWrapper;
@@ -18,6 +16,8 @@ public class DisplayActivity extends MicrophoneListenerActivity {
     private Runnable mUpdateDisplayRunnable;
 
     private TextView mMicLevelView; // TODO patricia make this into a bar thingie
+    private double mMicLevel;
+
     private TextView mDisplayView;
 
     @Override
@@ -34,6 +34,7 @@ public class DisplayActivity extends MicrophoneListenerActivity {
             public void run() {
                 int millis = FSKubeWrapper.getTimeMillis();
                 mDisplayView.setText("" + millis);
+                mMicLevelView.setText("" + mMicLevel);
 
                 mHandler.postDelayed(mUpdateDisplayRunnable, REFRESH_DISPLAY_INTERVAL_MILLIS);
             }
@@ -45,12 +46,14 @@ public class DisplayActivity extends MicrophoneListenerActivity {
 
     @Override
     protected void handleSamples(double[] normalizedSamples) {
+        double amplitude = Double.MIN_VALUE;
         for(double sample : normalizedSamples) {
             if (FSKubeWrapper.addSample(sample)) {
-                Log.d("shit", "" +FSKubeWrapper.getTimeMillis());
+                // this fires when FSKube recognizes a valid time
             }
-
+            amplitude = Math.max(amplitude, sample);
         }
+        mMicLevel = amplitude;
     }
 
 }

@@ -5,7 +5,6 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.util.Log;
 
 public abstract class MicrophoneListenerActivity extends Activity {
 
@@ -66,16 +65,16 @@ public abstract class MicrophoneListenerActivity extends Activity {
         public void run() {
             synchronized(mAudioRecord) {
                 mAudioRecord.startRecording();
-                OUTER:
-                while(mRunning) {
+
+                OUTER:while(mRunning) {
                     int bytesRead = 0;
                     while(bytesRead < mBuffer.length) {
                         if (!mRunning) {
                             break OUTER;
                         }
-
                         bytesRead += mAudioRecord.read(mBuffer, bytesRead, mBuffer.length - bytesRead);
                     }
+
                     for(int i = 0; i < mBuffer.length; i++) {
                         double shortSample = mBuffer[i];
                         double sample = shortSample >= 0 ? (shortSample / Short.MAX_VALUE) : -(shortSample / Short.MIN_VALUE);
@@ -83,6 +82,7 @@ public abstract class MicrophoneListenerActivity extends Activity {
                     }
                     handleSamples(mNormalizedSamples);
                 }
+
                 mAudioRecord.stop();
             }
         }
