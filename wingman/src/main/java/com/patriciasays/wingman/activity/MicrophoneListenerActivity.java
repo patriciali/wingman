@@ -72,12 +72,14 @@ public abstract class MicrophoneListenerActivity extends Activity {
                         if (!mRunning) {
                             break OUTER;
                         }
-                        bytesRead += mAudioRecord.read(mBuffer, bytesRead, mBuffer.length - bytesRead);
+                        bytesRead += mAudioRecord.read(mBuffer, bytesRead,
+                                mBuffer.length - bytesRead);
                     }
 
                     for(int i = 0; i < mBuffer.length; i++) {
                         double shortSample = mBuffer[i];
-                        double sample = shortSample >= 0 ? (shortSample / Short.MAX_VALUE) : -(shortSample / Short.MIN_VALUE);
+                        double sample = shortSample >= 0 ? (shortSample / Short.MAX_VALUE) :
+                                -(shortSample / Short.MIN_VALUE);
                         mNormalizedSamples[i] = sample;
                     }
                     handleSamples(mNormalizedSamples);
