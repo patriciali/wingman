@@ -1,5 +1,6 @@
 package com.patriciasays.wingman.util;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -19,15 +20,18 @@ public class Stopwatch implements Parcelable {
     private long mStartTime;
     private long mStopTime;
     private int mState;
+    private String mDnfMessage;
 
-    public Stopwatch() {
-        this(0, 0, STATE_NOT_STARTED);
+    public Stopwatch(Context context) {
+        this(0, 0, STATE_NOT_STARTED,
+                context.getResources().getString(R.string.inspection_dnf_message));
     }
 
-    private Stopwatch(long startTime, long stopTime, int state) {
+    private Stopwatch(long startTime, long stopTime, int state, String dnfMessage) {
         mStartTime = startTime;
         mStopTime = stopTime;
         mState = state;
+        mDnfMessage = dnfMessage;
     }
 
     public void start() {
@@ -50,7 +54,7 @@ public class Stopwatch implements Parcelable {
         } else {
             float elapsed = getElapsedTimeMillis();
             if (elapsed >= MAX_INSPECTION_TIME_MILLIS) {
-                return "DNF"; // TODO patricia string me
+                return mDnfMessage;
             }
             return String.format("%.1f", elapsed / 1000);
         }
@@ -81,7 +85,7 @@ public class Stopwatch implements Parcelable {
         return true;
     }
 
-    private long getElapsedTimeMillis() {
+    public long getElapsedTimeMillis() {
         long elapsed;
         if (isRunning()) {
             elapsed = (System.currentTimeMillis() - mStartTime);
@@ -101,6 +105,7 @@ public class Stopwatch implements Parcelable {
         dest.writeLong(mStartTime);
         dest.writeLong(mStopTime);
         dest.writeInt(mState);
+        dest.writeString(mDnfMessage);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -108,8 +113,9 @@ public class Stopwatch implements Parcelable {
             long startTime = in.readLong();
             long stopTime = in.readLong();
             int state = in.readInt();
+            String dnfMessage = in.readString();
 
-            return new Stopwatch(startTime, stopTime, state);
+            return new Stopwatch(startTime, stopTime, state, dnfMessage);
         }
 
         public Stopwatch[] newArray(int size) {

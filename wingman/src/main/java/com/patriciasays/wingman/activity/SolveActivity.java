@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jflei.fskube.FSKubeWrapper;
 import com.patriciasays.wingman.R;
@@ -20,8 +21,8 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
 
     private static final String TAG = "SolveActivity";
 
-    //private static final String STOPWATCH_BUNDLE_KEY = "stopwatch_bundle_key";
-    //private static final String DISPLAYTEXT_BUNDLE_KEY = "displaytext_bundle_key";
+    private static final String STOPWATCH_BUNDLE_KEY = "stopwatch_bundle_key";
+    private static final String ISINSPECTING_BUNDLE_KEY = "is_inspecting_bundle_key";
 
     private static final int REFRESH_DISPLAY_FPS = 50;
     private static final int REFRESH_DISPLAY_INTERVAL_MILLIS = 1000/REFRESH_DISPLAY_FPS;
@@ -44,6 +45,36 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
     private double mMicLevel;
     private int mLastStackmatTime;
 
+    private class DisplayRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            int currentTime = FSKubeWrapper.getTimeMillis();
+            if (mStopwatch.shouldRespondToStackmat() && currentTime != mLastStackmatTime) {
+                mIsInspecting = false;
+                mHandler.removeCallbacks(mVibrateRunnable);
+            }
+            mLastStackmatTime = currentTime;
+
+            String textToDisplay;
+            int colorId;
+            if (mIsInspecting) {
+                textToDisplay = mStopwatch.getTimeDisplay();
+                colorId = mStopwatch.getTimerBackgroundColorId();
+            } else {
+                textToDisplay = "" + String.format("%.3f", (currentTime + 0.0) / 1000);
+                colorId = R.color.light_grey;
+            }
+            mDisplayView.setText(textToDisplay);
+            mDisplayView.setBackgroundColor(getResources().getColor(colorId));
+            mMicLevelView.setText("" + mMicLevel);
+            mMicStatusView.setText("" + mMicStatusReceiver.isMicAvailable());
+
+            mHandler.postDelayed(mUpdateDisplayRunnable, REFRESH_DISPLAY_INTERVAL_MILLIS);
+
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,36 +89,10 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
         IntentFilter receiverFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(mMicStatusReceiver, receiverFilter);
 
-        mStopwatch = new Stopwatch();
         mVibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
         mHandler = new Handler();
-        mUpdateDisplayRunnable = new Runnable() {
-            @Override
-            public void run() {
-                int currentTime = FSKubeWrapper.getTimeMillis();
-                if (mStopwatch.shouldRespondToStackmat() && currentTime != mLastStackmatTime) {
-                    mIsInspecting = false;
-                }
-                mLastStackmatTime = currentTime;
-
-                String textToDisplay;
-                int colorId;
-                if (mIsInspecting) {
-                    textToDisplay = mStopwatch.getTimeDisplay();
-                    colorId = mStopwatch.getTimerBackgroundColorId();
-                } else {
-                    textToDisplay = "" + String.format("%.3f", (currentTime + 0.0) / 1000);
-                    colorId = R.color.light_grey;
-                }
-                mDisplayView.setText(textToDisplay);
-                mDisplayView.setBackgroundColor(getResources().getColor(colorId));
-                mMicLevelView.setText("" + mMicLevel);
-                mMicStatusView.setText("" + mMicStatusReceiver.isMicAvailable());
-
-                mHandler.postDelayed(mUpdateDisplayRunnable, REFRESH_DISPLAY_INTERVAL_MILLIS);
-            }
-        };
+        mUpdateDisplayRunnable = new DisplayRunnable();
         mVibrateRunnable = new Runnable() {
             @Override
             public void run() {
@@ -95,42 +100,28 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
             }
         };
 
-        mIsInspecting = true;
+        if (savedInstanceState == null || !savedInstanceState.containsKey(STOPWATCH_BUNDLE_KEY)) {
+            mStopwatch = new Stopwatch(this);
+            mIsInspecting = true;
+        } else {
+            mStopwatch = savedInstanceState.getParcelable(STOPWATCH_BUNDLE_KEY);
+            mIsInspecting = savedInstanceState.getBoolean(ISINSPECTING_BUNDLE_KEY);
+        }
 
         FSKubeWrapper.initialize(MicrophoneListenerActivity.SAMPLE_RATE);
+        mLastStackmatTime = FSKubeWrapper.getTimeMillis();
         mHandler.post(mUpdateDisplayRunnable);
-
-        /*if (savedInstanceState == null || !savedInstanceState.containsKey(STOPWATCH_BUNDLE_KEY)) {
-            mStopwatch = new Stopwatch();
-            mBackgroundColor = getResources().getColor(R.color.green);
-        } else {
-            mDisplayView.setVisibility(View.VISIBLE);
-
-            mStopwatch = savedInstanceState.getParcelable(STOPWATCH_BUNDLE_KEY);
-            mBackgroundColor = savedInstanceState.getInt(BACKGROUNDCOLOR_BUNDLE_KEY);
-
-            mDisplayView.setBackgroundColor(mBackgroundColor);
-            mDisplayView.setText(savedInstanceState.getString(DISPLAYTEXT_BUNDLE_KEY));
-
-            if (mStopwatch.isRunning()) {
-                mHandler.postDelayed(mDisplayRunnable, REFRESH_RATE_MILLIS);
-                for (int warningTime : Stopwatch.WARNING_TIMES_MILLIS) {
-                    long delayed = warningTime - VIBRATE_DURATION_MILLIS
-                            - mStopwatch.getElapsedTimeMillis();
-                    if (delayed > 0) {
-                        mHandler.postDelayed(mVibrateRunnable, delayed);
-                    }
-                }
-            }
-        }*/
+        if (mIsInspecting && mStopwatch.isRunning()) {
+            postVibrateRunnables();
+        }
     }
 
     @Override
     protected void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        //outState.putParcelable(STOPWATCH_BUNDLE_KEY, mStopwatch);
-        //outState.putString(DISPLAYTEXT_BUNDLE_KEY, (String) mDisplayView.getText());
+        outState.putParcelable(STOPWATCH_BUNDLE_KEY, mStopwatch);
+        outState.putBoolean(ISINSPECTING_BUNDLE_KEY, mIsInspecting);
     }
 
     @Override
@@ -147,25 +138,16 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
         for(double sample : normalizedSamples) {
             if (FSKubeWrapper.addSample(sample)) {
                 // this fires when FSKube recognizes a valid time
+                // this is a placeholder in case we need it later
             }
             amplitude = Math.max(amplitude, sample);
         }
         mMicLevel = amplitude;
     }
 
-    private void onStackmatStart() {
-        if (mIsInspecting && mStopwatch.isRunning()) {
-            mIsInspecting = false;
-        }
-    }
-
-    private void onStackmatStop() {
-        // TODO patricia
-    }
-
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        // start timer if not running, else do nothing for now
+        // start timer if not running, else do nothing
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             mDisplayView.setTextColor(getTextColor(true));
             return true;
@@ -174,11 +156,19 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
         if (event.getAction() == MotionEvent.ACTION_UP) {
             mDisplayView.setTextColor(getTextColor(false));
 
-            //if (mIsInspecting && !mStopwatch.isRunning()) {
-            mIsInspecting = true;
-            mStopwatch.reset();
-            mStopwatch.start();
-            //}
+            if (mIsInspecting && !mStopwatch.isRunning()) {
+                // TODO patricia, jeremy also check if stackmat is on
+                if (FSKubeWrapper.getTimeMillis() != 0) {
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.inspection_toast_reset_timer),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    mIsInspecting = true;
+                    mStopwatch.reset();
+                    mStopwatch.start();
+                    postVibrateRunnables();
+                }
+            }
 
             return true;
         }
@@ -190,5 +180,15 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
             return getResources().getColor(R.color.grey);
         }
         return getResources().getColor(R.color.black);
+    }
+
+    private void postVibrateRunnables() {
+        for (int warningTime : Stopwatch.WARNING_TIMES_MILLIS) {
+            long delayed = warningTime - VIBRATE_DURATION_MILLIS
+                    - mStopwatch.getElapsedTimeMillis();
+            if (delayed > 0) {
+                mHandler.postDelayed(mVibrateRunnable, delayed);
+            }
+        }
     }
 }
