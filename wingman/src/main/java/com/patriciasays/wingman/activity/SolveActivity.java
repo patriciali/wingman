@@ -43,18 +43,16 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
     // true when in inspection mode, false otherwise
     private boolean mIsInspecting;
     private double mMicLevel;
-    private int mLastStackmatTime;
 
     private class DisplayRunnable implements Runnable {
 
         @Override
         public void run() {
             int currentTime = FSKubeWrapper.getTimeMillis();
-            if (mStopwatch.shouldRespondToStackmat() && currentTime != mLastStackmatTime) {
+            if (mStopwatch.shouldRespondToStackmat() && FSKubeWrapper.isRunning()) {
                 mIsInspecting = false;
                 mHandler.removeCallbacks(mVibrateRunnable);
             }
-            mLastStackmatTime = currentTime;
 
             String textToDisplay;
             int colorId;
@@ -109,7 +107,6 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
         }
 
         FSKubeWrapper.initialize(MicrophoneListenerActivity.SAMPLE_RATE);
-        mLastStackmatTime = FSKubeWrapper.getTimeMillis();
         mHandler.post(mUpdateDisplayRunnable);
         if (mIsInspecting && mStopwatch.isRunning()) {
             postVibrateRunnables();
@@ -158,7 +155,11 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
 
             if (mIsInspecting && !mStopwatch.isRunning()) {
                 // TODO patricia, jeremy also check if stackmat is on
-                if (FSKubeWrapper.getTimeMillis() != 0) {
+                if (!FSKubeWrapper.isOn()) {
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.inspection_toast_turn_on_timer),
+                            Toast.LENGTH_SHORT).show();
+                } else if (FSKubeWrapper.getTimeMillis() != 0) {
                     Toast.makeText(getApplicationContext(),
                             getResources().getString(R.string.inspection_toast_reset_timer),
                             Toast.LENGTH_SHORT).show();
