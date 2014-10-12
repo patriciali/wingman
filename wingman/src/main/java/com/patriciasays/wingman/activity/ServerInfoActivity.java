@@ -18,11 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.util.Constants;
 
 public class ServerInfoActivity extends Activity implements Button.OnClickListener {
-
-    private static final String DOMAIN_NAME_PREFERENCE_KEY = "domain_name_key";
-    private static final String PORT_NUMBER_PREFERENCE_KEY = "port_number_key";
 
     private SharedPreferences mSharedPreferences;
 
@@ -55,9 +53,9 @@ public class ServerInfoActivity extends Activity implements Button.OnClickListen
     private void refreshServerInfoDisplay() {
         String serverInfoNotSet = getResources().getString(R.string.server_info_not_set);
         String domainNameString = getResources().getString(R.string.server_info_domain_name) + ": "
-                + mSharedPreferences.getString(DOMAIN_NAME_PREFERENCE_KEY, serverInfoNotSet);
+                + mSharedPreferences.getString(Constants.DOMAIN_NAME_PREFERENCE_KEY,serverInfoNotSet);
         String portNumberString = getResources().getString(R.string.server_info_port_number) + ": "
-                + mSharedPreferences.getString(PORT_NUMBER_PREFERENCE_KEY, serverInfoNotSet);
+                + mSharedPreferences.getString(Constants.PORT_NUMBER_PREFERENCE_KEY, serverInfoNotSet);
         mServerInfoDomainNameView.setText(domainNameString);
         mServerInfoPortNumberView.setText(portNumberString);
     }
@@ -78,9 +76,9 @@ public class ServerInfoActivity extends Activity implements Button.OnClickListen
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             SharedPreferences.Editor editor = mSharedPreferences.edit();
-                            editor.putString(DOMAIN_NAME_PREFERENCE_KEY,
+                            editor.putString(Constants.DOMAIN_NAME_PREFERENCE_KEY,
                                     editDomainName.getText().toString());
-                            editor.putString(PORT_NUMBER_PREFERENCE_KEY,
+                            editor.putString(Constants.PORT_NUMBER_PREFERENCE_KEY,
                                     editPortNumber.getText().toString());
                             editor.commit();
 

@@ -6,9 +6,10 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 
+import com.patriciasays.wingman.util.Constants;
+
 public abstract class MicrophoneListenerActivity extends Activity {
 
-    public static final int SAMPLE_RATE = 44100;
     private static final int BUFFER_SIZE = 8*1024;
     private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
     private static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
@@ -22,7 +23,7 @@ public abstract class MicrophoneListenerActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAudioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE,
+        mAudioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, Constants.SAMPLE_RATE,
                 CHANNEL_CONFIG, AUDIO_FORMAT, BUFFER_SIZE);
         mRecordRunnable = new RecordRunnable(mAudioRecord, BUFFER_SIZE);
     }

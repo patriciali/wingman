@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.jflei.fskube.FSKubeWrapper;
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.util.Constants;
 import com.patriciasays.wingman.util.MicrophoneStatusReceiver;
 import com.patriciasays.wingman.util.Stopwatch;
 import com.patriciasays.wingman.util.StringUtils;
@@ -108,7 +109,7 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
             mIsInspecting = savedInstanceState.getBoolean(ISINSPECTING_BUNDLE_KEY);
         }
 
-        FSKubeWrapper.initialize(MicrophoneListenerActivity.SAMPLE_RATE);
+        FSKubeWrapper.initialize(Constants.SAMPLE_RATE);
         FSKubeWrapper.setLogLevels("capi/*");
         mHandler.post(mUpdateDisplayRunnable);
         if (mIsInspecting && mStopwatch.isRunning()) {
