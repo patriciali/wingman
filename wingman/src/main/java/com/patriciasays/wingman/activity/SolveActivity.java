@@ -6,7 +6,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -14,8 +13,9 @@ import android.widget.Toast;
 
 import com.jflei.fskube.FSKubeWrapper;
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.microphone.MicrophoneListenerActivity;
 import com.patriciasays.wingman.util.Constants;
-import com.patriciasays.wingman.util.MicrophoneStatusReceiver;
+import com.patriciasays.wingman.microphone.MicrophoneStatusReceiver;
 import com.patriciasays.wingman.util.Stopwatch;
 import com.patriciasays.wingman.util.StringUtils;
 

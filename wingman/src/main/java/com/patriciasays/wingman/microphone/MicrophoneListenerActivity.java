@@ -1,4 +1,4 @@
-package com.patriciasays.wingman.activity;
+package com.patriciasays.wingman.microphone;
 
 import android.app.Activity;
 import android.media.AudioFormat;
