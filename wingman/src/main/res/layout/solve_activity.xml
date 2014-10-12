@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,24 +7,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.patriciasays.wingman.activity.DisplayActivity">
+    tools:context="com.patriciasays.wingman.activity.SolveActivity">
+
+    <TextView
+        android:id="@+id/display_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="80dip"/>
 
     <TextView
         android:id="@+id/microphone_level_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         android:textSize="20dip"/>
 
     <TextView
         android:id="@+id/microphone_status_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/microphone_level_textview"
+        android:layout_alignParentLeft="true"
         android:textSize="20dip"/>
 
-    <TextView
-        android:id="@+id/display_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="80dip"/>
-
-</LinearLayout>
+</RelativeLayout>
