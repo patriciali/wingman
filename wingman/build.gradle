@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.patriciasays.wingman"
-        minSdkVersion 8
-        targetSdkVersion 8
+        minSdkVersion 16
+        targetSdkVersion 16
         versionCode 1
         versionName "1.0"
     }
