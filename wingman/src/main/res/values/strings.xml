@@ -4,10 +4,16 @@
     <string name="app_name">CompetitionTool</string>
     <string name="dashboard_title">Dashboard</string>
 
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+
     <string name="inspection_dnf_message">DNF</string>
     <string name="inspection_toast_reset_timer">Please reset the timer</string>
     <string name="inspection_toast_turn_on_timer">Please turn on the timer</string>
 
-    <string name="server_info_submit">Submit</string>
+    <string name="server_info_domain_name">Domain name</string>
+    <string name="server_info_port_number">Port number</string>
+    <string name="server_info_not_set">Not set</string>
+    <string name="server_info_edit">Edit</string>
 
 </resources>

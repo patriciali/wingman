@@ -3,20 +3,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
+    <TextView
         android:id="@+id/server_info_domain_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20dip"/>
 
-    <EditText
+    <TextView
         android:id="@+id/server_info_port_number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20dip"/>
 
     <Button
-        android:id="@+id/server_info_submit"
+        android:id="@+id/server_info_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/server_info_submit"/>
+        android:text="@string/server_info_edit"/>
 
 </LinearLayout>

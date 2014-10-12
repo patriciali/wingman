@@ -109,6 +109,7 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
         }
 
         FSKubeWrapper.initialize(MicrophoneListenerActivity.SAMPLE_RATE);
+        FSKubeWrapper.setLogLevels("capi/*");
         mHandler.post(mUpdateDisplayRunnable);
         if (mIsInspecting && mStopwatch.isRunning()) {
             postVibrateRunnables();
