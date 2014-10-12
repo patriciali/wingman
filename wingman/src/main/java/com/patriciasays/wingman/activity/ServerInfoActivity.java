@@ -18,14 +18,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.server.DiscoverServerAsyncTask;
 import com.patriciasays.wingman.util.Constants;
 
-public class ServerInfoActivity extends Activity implements Button.OnClickListener {
+public class ServerInfoActivity extends Activity {
 
     private SharedPreferences mSharedPreferences;
 
     private TextView mServerInfoDomainNameView;
     private TextView mServerInfoPortNumberView;
+    private Button mAutoDiscoverServerButton;
     private Button mEditServerInfoButton;
 
     @Override
@@ -37,17 +39,24 @@ public class ServerInfoActivity extends Activity implements Button.OnClickListen
 
         mServerInfoDomainNameView = (TextView) findViewById(R.id.server_info_domain_name);
         mServerInfoPortNumberView = (TextView) findViewById(R.id.server_info_port_number);
+        mAutoDiscoverServerButton = (Button) findViewById(R.id.server_info_auto_discover);
         mEditServerInfoButton = (Button) findViewById(R.id.server_info_edit);
 
         refreshServerInfoDisplay();
-        mEditServerInfoButton.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        DialogFragment editDialogFragment = new EditServerInfoDialogFragment();
-        editDialogFragment.show(transaction, "dialog");
+        mAutoDiscoverServerButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DiscoverServerAsyncTask(view.getContext()).execute();
+            }
+        });
+        mEditServerInfoButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                DialogFragment editDialogFragment = new EditServerInfoDialogFragment();
+                editDialogFragment.show(transaction, "dialog");
+            }
+        });
     }
 
     private void refreshServerInfoDisplay() {

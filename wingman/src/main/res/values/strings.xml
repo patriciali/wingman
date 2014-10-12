@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">CompetitionTool</string>
+    <string name="server_name">omega</string>
+
     <string name="dashboard_title">Dashboard</string>
 
     <string name="submit">Submit</string>
@@ -14,6 +16,7 @@
     <string name="server_info_domain_name">Domain name</string>
     <string name="server_info_port_number">Port number</string>
     <string name="server_info_not_set">Not set</string>
-    <string name="server_info_edit">Edit</string>
+    <string name="server_info_auto_discover">Automatically discover server</string>
+    <string name="server_info_edit">Edit manually</string>
 
 </resources>
