@@ -52,11 +52,11 @@ public class Stopwatch implements Parcelable {
         if (mState == STATE_NOT_STARTED) {
             return "0.0";
         } else {
-            float elapsed = getElapsedTimeMillis();
+            long elapsed = getElapsedTimeMillis();
             if (elapsed >= MAX_INSPECTION_TIME_MILLIS) {
                 return mDnfMessage;
             }
-            return String.format("%.1f", elapsed / 1000);
+            return StringUtils.getFormattedInspectionTime(elapsed);
         }
     }
 

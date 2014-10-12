@@ -16,7 +16,9 @@ import com.jflei.fskube.FSKubeWrapper;
 import com.patriciasays.wingman.R;
 import com.patriciasays.wingman.util.MicrophoneStatusReceiver;
 import com.patriciasays.wingman.util.Stopwatch;
+import com.patriciasays.wingman.util.StringUtils;
 
+// TODO patricia if stackmat isn't plugged in, have option to default to manually enter times
 public class SolveActivity extends MicrophoneListenerActivity implements View.OnTouchListener {
 
     private static final String TAG = "SolveActivity";
@@ -60,7 +62,7 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
                 textToDisplay = mStopwatch.getTimeDisplay();
                 colorId = mStopwatch.getTimerBackgroundColorId();
             } else {
-                textToDisplay = "" + String.format("%.3f", (currentTime + 0.0) / 1000);
+                textToDisplay = StringUtils.getFormattedStackmatTime(currentTime);
                 colorId = R.color.light_grey;
             }
             mDisplayView.setText(textToDisplay);
@@ -114,6 +116,39 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
     }
 
     @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        // start timer if not running, else do nothing
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            mDisplayView.setTextColor(getTextColor(true));
+            return true;
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            mDisplayView.setTextColor(getTextColor(false));
+
+            if (mIsInspecting && !mStopwatch.isRunning()) {
+                if (!FSKubeWrapper.isOn()) {
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.inspection_toast_turn_on_timer),
+                            Toast.LENGTH_SHORT).show();
+                } else if (FSKubeWrapper.getTimeMillis() != 0) {
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.inspection_toast_reset_timer),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    mIsInspecting = true;
+                    mStopwatch.reset();
+                    mStopwatch.start();
+                    postVibrateRunnables();
+                }
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     protected void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -140,40 +175,6 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
             amplitude = Math.max(amplitude, sample);
         }
         mMicLevel = amplitude;
-    }
-
-    @Override
-    public boolean onTouch(View view, MotionEvent event) {
-        // start timer if not running, else do nothing
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            mDisplayView.setTextColor(getTextColor(true));
-            return true;
-        }
-
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            mDisplayView.setTextColor(getTextColor(false));
-
-            if (mIsInspecting && !mStopwatch.isRunning()) {
-                // TODO patricia, jeremy also check if stackmat is on
-                if (!FSKubeWrapper.isOn()) {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.inspection_toast_turn_on_timer),
-                            Toast.LENGTH_SHORT).show();
-                } else if (FSKubeWrapper.getTimeMillis() != 0) {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.inspection_toast_reset_timer),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    mIsInspecting = true;
-                    mStopwatch.reset();
-                    mStopwatch.start();
-                    postVibrateRunnables();
-                }
-            }
-
-            return true;
-        }
-        return false;
     }
 
     private int getTextColor(boolean isPressed) {
