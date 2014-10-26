@@ -31,25 +31,25 @@ public class ServerApi {
     private static final String TAG = "ServerApi";
 
     public static List<String> getCompetitionsList(Context context) {
-        List<String> comps = new ArrayList<String>();
-        String response = getJsonString(context, Constants.COMPETITIONS_LIST_URL_SUFFIX);
+        String response = getJsonString(context, ServerConstants.COMPETITIONS_LIST_URL_SUFFIX);
 
         if (TextUtils.isEmpty(response)) {
-            return comps;
+            return new ArrayList<String>();
         }
 
         try {
+            List<String> comps = new ArrayList<String>();
             JSONArray array = new JSONArray(response);
             for (int i = 0; i < array.length(); i += 1) {
                 JSONObject competitionObject = (JSONObject) array.get(i);
-                comps.add(competitionObject.getString("competitionName"));
+                comps.add(competitionObject.getString(ServerConstants.KEY_COMPETITION_NAME));
             }
+            return comps;
         } catch (JSONException e) {
             Log.e(TAG, "JSON response was not well-formed");
             e.printStackTrace();
-            return comps;
+            return new ArrayList<String>();
         }
-        return comps;
     }
 
     private static String getJsonString(Context context, String route) {
@@ -60,7 +60,7 @@ public class ServerApi {
 
         DefaultHttpClient client = new DefaultHttpClient(new BasicHttpParams());
         HttpGet request = new HttpGet("http://" + domainName + route);
-        request.setHeader("Content-type", "application/json"); // ???
+        request.setHeader("Content-type", "application/json");
 
         InputStream inputStream = null;
         try {

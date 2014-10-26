@@ -11,6 +11,10 @@ import com.patriciasays.wingman.server.ServerApi;
 
 import java.util.List;
 
+/**
+ * Testing the server API.
+ * Right now all this does is retrieve and display the list of competitions.
+ */
 public class ApiTestActivity extends Activity {
 
     private LinearLayout mCompetitionsListLayout;

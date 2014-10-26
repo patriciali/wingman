@@ -13,9 +13,4 @@ public class Constants {
     public static final String DOMAIN_NAME_PREFERENCE_KEY = "domain_name_key";
     public static final String PORT_NUMBER_PREFERENCE_KEY = "port_number_key";
 
-    /**
-     * URL suffix for retrieving list of competitions
-     */
-    public static final String COMPETITIONS_LIST_URL_SUFFIX = "/api/competitions";
-
 }
