@@ -21,11 +21,13 @@ public class DashboardActivity extends Activity {
     private static final String TAG = "DashboardActivity";
 
     private static final String[] DASHBOARD_ITEMS = {
-            "ServerInfoActivity",
-            "SolveActivity"};
+            "Modify server info",
+            "Inspection/stackmat input",
+            "Server API test"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {
             ServerInfoActivity.class,
-            SolveActivity.class};
+            SolveActivity.class,
+            ApiTestActivity.class};
 
     private ListView mListView;
     private ListAdapter mListAdapter;
