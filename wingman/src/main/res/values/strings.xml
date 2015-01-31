@@ -2,16 +2,20 @@
 <resources>
 
     <string name="app_name">CompetitionTool</string>
-    <string name="server_name">omega</string>
+    <string name="server_name">CCM</string>
 
     <string name="dashboard_title">Dashboard</string>
 
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="dnf">DNF</string>
+    <string name="next">Next</string>
 
-    <string name="inspection_dnf_message">DNF</string>
     <string name="inspection_toast_reset_timer">Please reset the timer</string>
     <string name="inspection_toast_turn_on_timer">Please turn on the timer</string>
+
+    <string name="subtract_penalty">-2</string>
+    <string name="add_penalty">+2</string>
 
     <string name="server_info_domain_name">Domain name</string>
     <string name="server_info_port_number">Port number</string>

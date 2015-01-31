@@ -26,7 +26,7 @@ public class DashboardActivity extends Activity {
             "Server API test"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {
             ServerInfoActivity.class,
-            SolveActivity.class,
+            StackmatActivity.class,
             ApiTestActivity.class};
 
     private ListView mListView;

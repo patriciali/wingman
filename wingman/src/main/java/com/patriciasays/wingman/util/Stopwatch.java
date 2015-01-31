@@ -24,7 +24,7 @@ public class Stopwatch implements Parcelable {
 
     public Stopwatch(Context context) {
         this(0, 0, STATE_NOT_STARTED,
-                context.getResources().getString(R.string.inspection_dnf_message));
+                context.getResources().getString(R.string.dnf));
     }
 
     private Stopwatch(long startTime, long stopTime, int state, String dnfMessage) {
@@ -93,6 +93,18 @@ public class Stopwatch implements Parcelable {
             elapsed = (mStopTime - mStartTime);
         }
         return elapsed;
+    }
+
+    public String getDnfMessage() {
+        return mDnfMessage;
+    }
+
+    public static boolean shouldPenalize(long inspectionTimeMillis) {
+        if (inspectionTimeMillis > WARNING_TIMES_MILLIS[2] &&
+                inspectionTimeMillis < MAX_INSPECTION_TIME_MILLIS) {
+            return true;
+        }
+        return false;
     }
 
     @Override

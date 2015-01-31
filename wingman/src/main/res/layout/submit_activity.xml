@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/result_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dip"
+        android:textSize="50sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dip">
+
+        <TextView
+            android:id="@+id/result_subtract_penalty_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/subtract_penalty"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:clickable="true"
+            android:onClick="subtractPenalty"/>
+
+        <TextView
+            android:id="@+id/result_add_penalty_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_penalty"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:clickable="true"
+            android:onClick="addPenalty"/>
+
+        <TextView
+            android:id="@+id/result_dnf_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dnf"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:clickable="true"
+            android:onClick="applyDnf"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:layout_marginTop="30dip"
+        android:textSize="30dip"
+        android:layout_gravity="center_horizontal"
+        android:clickable="true"
+        android:onClick="submit"/>
+
+</LinearLayout>

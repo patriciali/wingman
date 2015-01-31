@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/wingman.iml" filepath="$PROJECT_DIR$/wingman.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wingman/wingman.iml" filepath="$PROJECT_DIR$/wingman/wingman.iml" />
       <module fileurl="file://$PROJECT_DIR$/wingman/wingman-wingman.iml" filepath="$PROJECT_DIR$/wingman/wingman-wingman.iml" />
     </modules>
   </component>

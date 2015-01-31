@@ -6,6 +6,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -19,10 +21,9 @@ import com.patriciasays.wingman.microphone.MicrophoneStatusReceiver;
 import com.patriciasays.wingman.util.Stopwatch;
 import com.patriciasays.wingman.util.StringUtils;
 
-// TODO patricia if stackmat isn't plugged in, have option to default to manually enter times
-public class SolveActivity extends MicrophoneListenerActivity implements View.OnTouchListener {
+public class StackmatActivity extends MicrophoneListenerActivity implements View.OnTouchListener {
 
-    private static final String TAG = "SolveActivity";
+    private static final String TAG = "StackmatActivity";
 
     private static final String STOPWATCH_BUNDLE_KEY = "stopwatch_bundle_key";
     private static final String ISINSPECTING_BUNDLE_KEY = "is_inspecting_bundle_key";
@@ -42,10 +43,13 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
     private TextView mMicLevelView; // TODO patricia make this into a bar thingie
     private TextView mMicStatusView;
     private TextView mDisplayView;
+    private TextView mSubmitTimeButton;
 
     // true when in inspection mode, false otherwise
     private boolean mIsInspecting;
     private double mMicLevel;
+
+    private boolean mHasInspectionPenalty;
 
     private class DisplayRunnable implements Runnable {
 
@@ -55,6 +59,8 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
             if (mStopwatch.shouldRespondToStackmat() && FSKubeWrapper.isRunning()) {
                 mIsInspecting = false;
                 mHandler.removeCallbacks(mVibrateRunnable);
+
+                mHasInspectionPenalty = Stopwatch.shouldPenalize(mStopwatch.getElapsedTimeMillis());
             }
 
             String textToDisplay;
@@ -71,6 +77,11 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
             mMicLevelView.setText("" + mMicLevel);
             mMicStatusView.setText("" + mMicStatusReceiver.isMicAvailable());
 
+            if ((mStopwatch.isRunning() && !mIsInspecting && !FSKubeWrapper.isRunning()) ||
+                    TextUtils.equals(mStopwatch.getDnfMessage(), textToDisplay)) {
+                mSubmitTimeButton.setVisibility(View.VISIBLE);
+            }
+
             mHandler.postDelayed(mUpdateDisplayRunnable, REFRESH_DISPLAY_INTERVAL_MILLIS);
 
         }
@@ -79,11 +90,12 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.solve_activity);
+        setContentView(R.layout.stackmat_activity);
 
         mMicLevelView = (TextView) findViewById(R.id.microphone_level_textview);
         mMicStatusView = (TextView) findViewById(R.id.microphone_status_textview);
         mDisplayView = (TextView) findViewById(R.id.display_textview);
+        mSubmitTimeButton = (TextView) findViewById(R.id.goto_submitactivity_button);
         mDisplayView.setOnTouchListener(this);
 
         mMicStatusReceiver = new MicrophoneStatusReceiver();
@@ -177,6 +189,14 @@ public class SolveActivity extends MicrophoneListenerActivity implements View.On
             amplitude = Math.max(amplitude, sample);
         }
         mMicLevel = amplitude;
+    }
+
+    public void goToSubmitActivity(View view) {
+        Intent intent = new Intent(this, SubmitActivity.class);
+        String result = mDisplayView.getText().toString();
+        intent.putExtra(SubmitActivity.EXTRA_SOLVE_RESULT, result);
+        intent.putExtra(SubmitActivity.EXTRA_HAS_INSPECTION_PENALTY, mHasInspectionPenalty);
+        startActivity(intent);
     }
 
     private int getTextColor(boolean isPressed) {

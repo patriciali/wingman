@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.patriciasays.wingman.data.ServerConstants;
 import com.patriciasays.wingman.util.Constants;
 
 import org.apache.http.HttpEntity;
