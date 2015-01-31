@@ -2,6 +2,8 @@ package com.patriciasays.wingman.util;
 
 public class Constants {
 
+    public static final int PENALTY_TIME_MILLIS = 2000;
+
     /**
      * Sample rate for MicrophoneListenerActivity to use with FSKubeWrapper
      */

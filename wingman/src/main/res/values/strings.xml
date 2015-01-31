@@ -10,11 +10,14 @@
     <string name="cancel">Cancel</string>
     <string name="dnf">DNF</string>
     <string name="next">Next</string>
+    <string name="plus_two">+2</string>
 
     <string name="inspection_toast_reset_timer">Please reset the timer</string>
     <string name="inspection_toast_turn_on_timer">Please turn on the timer</string>
 
     <string name="subtract_penalty">-2</string>
+    <string name="subtract_penalty_failure_none">Can\'t subtract penalty; none applied</string>
+    <string name="penalty_failure_dnf">Can\'t penalize a DNF</string>
     <string name="add_penalty">+2</string>
 
     <string name="server_info_domain_name">Domain name</string>

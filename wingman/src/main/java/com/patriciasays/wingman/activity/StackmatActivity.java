@@ -40,7 +40,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
     private Runnable mUpdateDisplayRunnable;
     private Runnable mVibrateRunnable;
 
-    private TextView mMicLevelView; // TODO patricia make this into a bar thingie
+    private TextView mMicLevelView; // TODO pzl make this into a bar thingie
     private TextView mMicStatusView;
     private TextView mDisplayView;
     private TextView mSubmitTimeButton;
@@ -194,7 +194,12 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
     public void goToSubmitActivity(View view) {
         Intent intent = new Intent(this, SubmitActivity.class);
         String result = mDisplayView.getText().toString();
-        intent.putExtra(SubmitActivity.EXTRA_SOLVE_RESULT, result);
+        if (TextUtils.equals(result, mStopwatch.getDnfMessage())) {
+            intent.putExtra(SubmitActivity.EXTRA_SOLVE_RESULT, SubmitActivity.DNF_RESULT);
+        } else {
+            intent.putExtra(SubmitActivity.EXTRA_SOLVE_RESULT,
+                    (long) FSKubeWrapper.getTimeMillis());
+        }
         intent.putExtra(SubmitActivity.EXTRA_HAS_INSPECTION_PENALTY, mHasInspectionPenalty);
         startActivity(intent);
     }

@@ -56,7 +56,7 @@ public class ServerApi {
     private static String getJsonString(Context context, String route) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String domainName = sharedPref.getString(Constants.DOMAIN_NAME_PREFERENCE_KEY, "");
-        // TODO patricia how to use this?
+        // TODO pzl how to use this?
         String portNum = sharedPref.getString(Constants.PORT_NUMBER_PREFERENCE_KEY, "");
 
         DefaultHttpClient client = new DefaultHttpClient(new BasicHttpParams());
