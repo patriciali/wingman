@@ -1,4 +1,4 @@
-package com.patriciasays.wingman.activity;
+package com.patriciasays.wingman.activity.setup;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -110,7 +111,8 @@ public class ServerInfoActivity extends Activity {
     }
 
     public void next(View view) {
-        // TODO
+        Intent intent = new Intent(this, SelectCompetitionActivity.class);
+        startActivity(intent);
     }
 
     private void update(String domainName, String portNumber) {

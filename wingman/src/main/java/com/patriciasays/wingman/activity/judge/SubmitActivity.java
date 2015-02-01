@@ -1,4 +1,4 @@
-package com.patriciasays.wingman.activity;
+package com.patriciasays.wingman.activity.judge;
 
 import android.app.Activity;
 import android.content.Intent;

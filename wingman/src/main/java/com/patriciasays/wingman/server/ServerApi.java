@@ -74,24 +74,21 @@ public class ServerApi {
                     new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
             StringBuilder sb = new StringBuilder();
             String line;
-            while ((line = reader.readLine()) != null)
-            {
+            while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
             }
 
             return sb.toString();
         } catch (Exception e) {
             Log.e(TAG, e.toString());
-            e.printStackTrace();
             return null;
         } finally {
-            try{
+            try {
                 if(inputStream != null) {
                     inputStream.close();
                 }
             } catch(Exception e) {
                 Log.e(TAG, e.toString());
-                e.printStackTrace();
             }
         }
     }

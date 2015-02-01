@@ -15,4 +15,6 @@ public class Constants {
     public static final String DOMAIN_NAME_PREFERENCE_KEY = "domain_name_key";
     public static final String PORT_NUMBER_PREFERENCE_KEY = "port_number_key";
 
+    public static final String COMPETITION_ID_PREFERENCE_KEY = "comp_id_key";
+
 }

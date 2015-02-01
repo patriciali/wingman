@@ -8,6 +8,7 @@
 
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="finish">Finish</string>
     <string name="dnf">DNF</string>
     <string name="next">Next</string>
     <string name="plus_two">+2</string>
@@ -26,5 +27,7 @@
     <string name="server_info_auto_discover">Automatically discover server</string>
     <string name="server_info_edit">Edit manually</string>
     <string name="server_info_use_defaults">Use defaults</string>
+
+    <string name="setup_select_competition">Select your competition</string>
 
 </resources>

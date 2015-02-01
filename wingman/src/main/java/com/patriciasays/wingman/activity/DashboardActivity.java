@@ -12,6 +12,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.activity.judge.StackmatActivity;
+import com.patriciasays.wingman.activity.setup.ServerInfoActivity;
 
 /**
  * this will be a launcher for everything until we figure out what the flow is going to be
@@ -22,12 +24,10 @@ public class DashboardActivity extends Activity {
 
     private static final String[] DASHBOARD_ITEMS = {
             "Setup flow",
-            "Inspection/stackmat input",
-            "Server API test"};
+            "Inspection/stackmat input"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {
             ServerInfoActivity.class,
-            StackmatActivity.class,
-            ApiTestActivity.class};
+            StackmatActivity.class};
 
     private ListView mListView;
     private ListAdapter mListAdapter;
@@ -39,7 +39,7 @@ public class DashboardActivity extends Activity {
 
         mListView = (ListView) findViewById(R.id.dashboard_listview);
         mListAdapter =
-                new ArrayAdapter<String>(this, R.layout.dashboard_list_item, DASHBOARD_ITEMS);
+                new ArrayAdapter<String>(this, R.layout.wingman_list_item, DASHBOARD_ITEMS);
         mListView.setAdapter(mListAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
