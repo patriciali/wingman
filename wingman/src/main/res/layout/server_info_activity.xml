@@ -16,6 +16,12 @@
         android:textSize="20dip"/>
 
     <Button
+        android:id="@+id/server_info_use_defaults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/server_info_use_defaults"/>
+
+    <Button
         android:id="@+id/server_info_auto_discover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

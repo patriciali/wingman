@@ -21,7 +21,7 @@ public class DashboardActivity extends Activity {
     private static final String TAG = "DashboardActivity";
 
     private static final String[] DASHBOARD_ITEMS = {
-            "Modify server info",
+            "Setup flow",
             "Inspection/stackmat input",
             "Server API test"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {

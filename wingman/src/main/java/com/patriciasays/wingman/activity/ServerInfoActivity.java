@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.data.ServerConstants;
 import com.patriciasays.wingman.server.DiscoverServerAsyncTask;
 import com.patriciasays.wingman.util.Constants;
 
@@ -29,6 +30,7 @@ public class ServerInfoActivity extends Activity {
     private TextView mServerInfoPortNumberView;
     private Button mAutoDiscoverServerButton;
     private Button mEditServerInfoButton;
+    private Button mUseDefaultsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class ServerInfoActivity extends Activity {
         mServerInfoPortNumberView = (TextView) findViewById(R.id.server_info_port_number);
         mAutoDiscoverServerButton = (Button) findViewById(R.id.server_info_auto_discover);
         mEditServerInfoButton = (Button) findViewById(R.id.server_info_edit);
+        mUseDefaultsButton = (Button) findViewById(R.id.server_info_use_defaults);
 
         refreshServerInfoDisplay();
         mAutoDiscoverServerButton.setOnClickListener(new Button.OnClickListener() {
@@ -55,6 +58,13 @@ public class ServerInfoActivity extends Activity {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 DialogFragment editDialogFragment = new EditServerInfoDialogFragment();
                 editDialogFragment.show(transaction, "dialog");
+            }
+        });
+        mUseDefaultsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update(ServerConstants.DEFAULT_SERVER_URL, ServerConstants.DEFAULT_PORT);
+                refreshServerInfoDisplay();
             }
         });
     }
@@ -84,12 +94,8 @@ public class ServerInfoActivity extends Activity {
             builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            SharedPreferences.Editor editor = mSharedPreferences.edit();
-                            editor.putString(Constants.DOMAIN_NAME_PREFERENCE_KEY,
-                                    editDomainName.getText().toString());
-                            editor.putString(Constants.PORT_NUMBER_PREFERENCE_KEY,
+                            update(editDomainName.getText().toString(),
                                     editPortNumber.getText().toString());
-                            editor.commit();
 
                             refreshServerInfoDisplay();
                         }
@@ -101,5 +107,12 @@ public class ServerInfoActivity extends Activity {
                     });
             return builder.create();
         }
+    }
+
+    private void update(String domainName, String portNumber) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(Constants.DOMAIN_NAME_PREFERENCE_KEY, domainName);
+        editor.putString(Constants.PORT_NUMBER_PREFERENCE_KEY, portNumber);
+        editor.commit();
     }
 }

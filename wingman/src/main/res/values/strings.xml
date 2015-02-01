@@ -25,5 +25,6 @@
     <string name="server_info_not_set">Not set</string>
     <string name="server_info_auto_discover">Automatically discover server</string>
     <string name="server_info_edit">Edit manually</string>
+    <string name="server_info_use_defaults">Use defaults</string>
 
 </resources>

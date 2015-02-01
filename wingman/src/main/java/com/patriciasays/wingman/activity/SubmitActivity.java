@@ -98,7 +98,7 @@ public class SubmitActivity extends Activity {
     }
 
     /**
-     * @return if mResultTime = 9250 and mNumPenalties = 1, returns "9.25 + 2 ="
+     * @return if mResultTime = 9250 and mNumPenalties = 1, returns "9.25 +2 ="
      */
     private String getResultCalculationString() {
         String calc = "";
