@@ -1,36 +1,51 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/server_info_domain_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dip"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/server_info_port_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dip"/>
+        <TextView
+            android:id="@+id/server_info_domain_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dip"/>
+
+        <TextView
+            android:id="@+id/server_info_port_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dip"/>
+
+        <Button
+            android:id="@+id/server_info_use_defaults"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/server_info_use_defaults"/>
+
+        <Button
+            android:id="@+id/server_info_auto_discover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/server_info_auto_discover"/>
+
+        <Button
+            android:id="@+id/server_info_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/server_info_edit"/>
+
+    </LinearLayout>
 
     <Button
-        android:id="@+id/server_info_use_defaults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/server_info_use_defaults"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dip"
+        android:text="@string/next"
+        android:onClick="next"/>
 
-    <Button
-        android:id="@+id/server_info_auto_discover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/server_info_auto_discover"/>
-
-    <Button
-        android:id="@+id/server_info_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/server_info_edit"/>
-
-</LinearLayout>
+</RelativeLayout>

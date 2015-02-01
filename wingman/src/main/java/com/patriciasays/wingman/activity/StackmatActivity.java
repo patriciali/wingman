@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
     private TextView mMicLevelView; // TODO pzl make this into a bar thingie
     private TextView mMicStatusView;
     private TextView mDisplayView;
-    private TextView mSubmitTimeButton;
+    private Button mSubmitTimeButton;
 
     // true when in inspection mode, false otherwise
     private boolean mIsInspecting;
@@ -95,7 +96,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
         mMicLevelView = (TextView) findViewById(R.id.microphone_level_textview);
         mMicStatusView = (TextView) findViewById(R.id.microphone_status_textview);
         mDisplayView = (TextView) findViewById(R.id.display_textview);
-        mSubmitTimeButton = (TextView) findViewById(R.id.goto_submitactivity_button);
+        mSubmitTimeButton = (Button) findViewById(R.id.goto_submitactivity_button);
         mDisplayView.setOnTouchListener(this);
 
         mMicStatusReceiver = new MicrophoneStatusReceiver();
@@ -191,7 +192,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
         mMicLevel = amplitude;
     }
 
-    public void goToSubmitActivity(View view) {
+    public void next(View view) {
         Intent intent = new Intent(this, SubmitActivity.class);
         String result = mDisplayView.getText().toString();
         if (TextUtils.equals(result, mStopwatch.getDnfMessage())) {

@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dip">
 
-        <TextView
+        <Button
             android:id="@+id/result_subtract_penalty_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,10 +33,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="30sp"
-            android:clickable="true"
             android:onClick="subtractPenalty"/>
 
-        <TextView
+        <Button
             android:id="@+id/result_add_penalty_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,10 +43,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="30sp"
-            android:clickable="true"
             android:onClick="addPenalty"/>
 
-        <TextView
+        <Button
             android:id="@+id/result_dnf_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,12 +53,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="30sp"
-            android:clickable="true"
             android:onClick="applyDnf"/>
 
     </LinearLayout>
 
-    <TextView
+    <Button
         android:id="@+id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,7 +65,6 @@
         android:layout_marginTop="30dip"
         android:textSize="30dip"
         android:layout_gravity="center_horizontal"
-        android:clickable="true"
         android:onClick="submit"/>
 
 </LinearLayout>

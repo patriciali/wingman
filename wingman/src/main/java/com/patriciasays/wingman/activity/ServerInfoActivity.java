@@ -109,6 +109,10 @@ public class ServerInfoActivity extends Activity {
         }
     }
 
+    public void next(View view) {
+        // TODO
+    }
+
     private void update(String domainName, String portNumber) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(Constants.DOMAIN_NAME_PREFERENCE_KEY, domainName);
