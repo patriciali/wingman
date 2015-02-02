@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.jflei.fskube.FSKubeWrapper;
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.CompetitionToolApp;
 import com.patriciasays.wingman.microphone.MicrophoneListenerActivity;
 import com.patriciasays.wingman.util.Constants;
 import com.patriciasays.wingman.microphone.MicrophoneStatusReceiver;
@@ -42,6 +43,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
 
     private TextView mMicLevelView; // TODO pzl make this into a bar thingie
     private TextView mMicStatusView;
+    private TextView mNetworkStatusView;
     private TextView mDisplayView;
     private Button mSubmitTimeButton;
 
@@ -76,6 +78,8 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
             mDisplayView.setBackgroundColor(getResources().getColor(colorId));
             mMicLevelView.setText("" + mMicLevel);
             mMicStatusView.setText("" + mMicStatusReceiver.isMicAvailable());
+            mNetworkStatusView.setText(
+                    "" + CompetitionToolApp.getInstance().getNetworkConnectivityStatus());
 
             if ((mStopwatch.isRunning() && !mIsInspecting && !FSKubeWrapper.isRunning()) ||
                     TextUtils.equals(mStopwatch.getDnfMessage(), textToDisplay)) {
@@ -94,6 +98,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
 
         mMicLevelView = (TextView) findViewById(R.id.microphone_level_textview);
         mMicStatusView = (TextView) findViewById(R.id.microphone_status_textview);
+        mNetworkStatusView = (TextView) findViewById(R.id.network_status_textview);
         mDisplayView = (TextView) findViewById(R.id.display_textview);
         mSubmitTimeButton = (Button) findViewById(R.id.goto_submitactivity_button);
         mDisplayView.setOnTouchListener(this);
