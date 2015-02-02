@@ -3,12 +3,13 @@ package com.patriciasays.wingman.microphone;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+
+import com.patriciasays.wingman.CompetitionToolApp;
 
 public class MicrophoneStatusReceiver extends BroadcastReceiver {
 
     private static final int INVALID_NO_EXTRA = -1;
-
-    private static boolean mMicAvailable;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -16,11 +17,13 @@ public class MicrophoneStatusReceiver extends BroadcastReceiver {
             int headsetState = intent.getIntExtra("state", INVALID_NO_EXTRA);
             int micState = intent.getIntExtra("microphone", INVALID_NO_EXTRA);
 
-            mMicAvailable = headsetState == 1 && micState == 1;
+            CompetitionToolApp.getInstance().setMicConnectedStatus(
+                    headsetState == 1 && micState == 1);
         }
     }
 
-    public boolean isMicAvailable() {
-        return mMicAvailable;
+    public static void registerReceiver(Context context, MicrophoneStatusReceiver receiver) {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+        context.registerReceiver(receiver, filter);
     }
 }

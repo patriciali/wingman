@@ -33,7 +33,6 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
     private static final int REFRESH_DISPLAY_INTERVAL_MILLIS = 1000/REFRESH_DISPLAY_FPS;
     private static final int VIBRATE_DURATION_MILLIS = 1000;
 
-    private MicrophoneStatusReceiver mMicStatusReceiver;
     private Stopwatch mStopwatch;
     private Vibrator mVibrator;
 
@@ -77,7 +76,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
             mDisplayView.setText(textToDisplay);
             mDisplayView.setBackgroundColor(getResources().getColor(colorId));
             mMicLevelView.setText("" + mMicLevel);
-            mMicStatusView.setText("" + mMicStatusReceiver.isMicAvailable());
+            mMicStatusView.setText("" + CompetitionToolApp.getInstance().getMicConnectedStatus());
             mNetworkStatusView.setText(
                     "" + CompetitionToolApp.getInstance().getNetworkConnectivityStatus());
 
@@ -102,10 +101,6 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
         mDisplayView = (TextView) findViewById(R.id.display_textview);
         mSubmitTimeButton = (Button) findViewById(R.id.goto_submitactivity_button);
         mDisplayView.setOnTouchListener(this);
-
-        mMicStatusReceiver = new MicrophoneStatusReceiver();
-        IntentFilter receiverFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
-        registerReceiver(mMicStatusReceiver, receiverFilter);
 
         mVibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 

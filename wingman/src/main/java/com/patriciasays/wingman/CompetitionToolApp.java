@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.patriciasays.wingman.microphone.MicrophoneStatusReceiver;
 import com.patriciasays.wingman.util.NetworkStatusReceiver;
 
 public class CompetitionToolApp extends Application {
@@ -12,6 +13,7 @@ public class CompetitionToolApp extends Application {
     private static CompetitionToolApp sInstance;
 
     private boolean mIsNetworkConnected;
+    private boolean mIsMicAvailable;
 
     @Override
     public void onCreate() {
@@ -19,6 +21,7 @@ public class CompetitionToolApp extends Application {
 
         sInstance = this;
 
+        MicrophoneStatusReceiver.registerReceiver(this, new MicrophoneStatusReceiver());
         NetworkStatusReceiver.registerReceiver(this, new NetworkStatusReceiver());
     }
 
@@ -39,6 +42,14 @@ public class CompetitionToolApp extends Application {
         } else {
             mIsNetworkConnected = false;
         }
+    }
+
+    public boolean getMicConnectedStatus() {
+        return mIsMicAvailable;
+    }
+
+    public void setMicConnectedStatus(boolean status) {
+        mIsMicAvailable = status;
     }
 
 }
