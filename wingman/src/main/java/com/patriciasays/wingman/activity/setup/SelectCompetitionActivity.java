@@ -51,10 +51,6 @@ public class SelectCompetitionActivity extends Activity {
                     editor.putString(
                             Constants.COMPETITION_ID_PREFERENCE_KEY, mCompetitions.get(position));
                     editor.commit();
-
-                    // TODO remove
-                    Toast.makeText(getApplicationContext(), mCompetitions.get(position),
-                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
