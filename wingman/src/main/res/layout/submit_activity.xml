@@ -30,7 +30,7 @@
         android:text="@string/dnf"
         android:gravity="center"
         android:textSize="30sp"
-        android:onClick="applyDnf"/>
+        android:onClick="toggleDnf"/>
 
     <ListView
         android:id="@+id/penalty_buttons_list"

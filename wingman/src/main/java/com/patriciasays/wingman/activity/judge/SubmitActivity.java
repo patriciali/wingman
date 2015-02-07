@@ -1,12 +1,15 @@
 package com.patriciasays.wingman.activity.judge;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -44,21 +47,14 @@ public class SubmitActivity extends Activity {
         mHumanReadablePenalties = getResources().getStringArray(R.array.penalties_human_readable);
         mPenalties = new boolean[mHumanReadablePenalties.length];
 
-        mPenaltyButtonsListView.setAdapter(new ArrayAdapter<String>(this,
+        mPenaltyButtonsListView.setAdapter(new BooleanBackedListAdapter(this,
                 R.layout.submit_activity_penalty_button, mHumanReadablePenalties));
         mPenaltyButtonsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mResultTime != DNF_RESULT) {
                     mPenalties[position] = !mPenalties[position];
-
-                    if (mPenalties[position]) {
-                        view.getBackground().setColorFilter(
-                                getResources().getColor(R.color.red), PorterDuff.Mode.MULTIPLY);
-                    } else {
-                        view.getBackground().setColorFilter(null);
-                    }
-
+                    updateSelectedButtonBackground(view, mPenalties[position]);
                     updateDisplay();
                 }
             }
@@ -67,13 +63,12 @@ public class SubmitActivity extends Activity {
         Intent intent = getIntent();
         mResultTime = intent.getLongExtra(EXTRA_SOLVE_RESULT, DNF_RESULT);
         mResultTimeCache = mResultTime;
-        if (intent.getBooleanExtra(EXTRA_HAS_INSPECTION_PENALTY, false)) {
-            // TODO need custom adapter
-        }
+        mPenalties[INSPECTION_PENALTY_INDEX] =
+                intent.getBooleanExtra(EXTRA_HAS_INSPECTION_PENALTY, false);
         updateDisplay();
     }
 
-    public void applyDnf(View view) {
+    public void toggleDnf(View view) {
         if (mResultTime == mResultTimeCache) {
             mResultTime = DNF_RESULT;
         } else {
@@ -85,6 +80,15 @@ public class SubmitActivity extends Activity {
 
     public void submit(View view) {
         // TODO
+    }
+
+    private void updateSelectedButtonBackground(View view, boolean selected) {
+        if (selected) {
+            view.getBackground().setColorFilter(
+                    getResources().getColor(R.color.red), PorterDuff.Mode.MULTIPLY);
+        } else {
+            view.getBackground().setColorFilter(null);
+        }
     }
 
     private void updateDisplay() {
@@ -130,6 +134,20 @@ public class SubmitActivity extends Activity {
             }
         }
         return count;
+    }
+
+    private class BooleanBackedListAdapter extends ArrayAdapter<String> {
+
+        public BooleanBackedListAdapter(Context context, int resource, String[] objects) {
+            super(context, resource, objects);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = super.getView(position, convertView, parent);
+            updateSelectedButtonBackground(view, mPenalties[position]);
+            return view;
+        }
+
     }
 
 }
