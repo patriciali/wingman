@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="penalties_human_readable">
+        <item>One move away</item>
+        <item>Puzzle on timer</item>
+        <item>Palms not down on start</item>
+        <item>Started while touching puzzle</item>
+        <item>Started after 15 seconds</item>
+        <item>Stopped while touching puzzle</item>
+        <item>Palms not down on stop</item>
+        <item>Touched puzzle before judge verified solved</item>
+    </string-array>
+
+    <string-array name="penalties_json_codes">
+        <item>PLUSTWO_ONE_MOVE_AWAY</item>
+        <item>PLUSTWO_PUZZLE_ON_TIMER</item>
+        <item>PLUSTWO_START_PALMS_NOT_DOWN</item>
+        <item>PLUSTWO_START_TOUCHING_PUZZLE</item>
+        <item>PLUSTWO_START_AFTER_INSPECTION</item>
+        <item>PLUSTWO_STOP_TOUCHING_PUZZLE</item>
+        <item>PLUSTWO_STOP_PALMS_NOT_DOWN</item>
+        <item>PLUSTWO_STOP_TOUCHED_PUZZLE_BEFORE_JUDGE_INSPECTED</item>
+    </string-array>
+
+</resources>

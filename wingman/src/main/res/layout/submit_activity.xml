@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,62 +9,49 @@
         android:id="@+id/result_calculation_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dip"
+        android:layout_marginTop="30dip"
         android:textSize="30sp"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/result_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/result_calculation_textview"
         android:textSize="50sp"
-        android:layout_gravity="center_horizontal"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dip">
-
-        <Button
-            android:id="@+id/result_subtract_penalty_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/subtract_penalty"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:onClick="subtractPenalty"/>
-
-        <Button
-            android:id="@+id/result_add_penalty_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/add_penalty"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:onClick="addPenalty"/>
-
-        <Button
-            android:id="@+id/result_dnf_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dnf"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:onClick="applyDnf"/>
-
-    </LinearLayout>
+        android:layout_centerHorizontal="true"/>
 
     <Button
-        android:id="@+id/submit_button"
+        android:id="@+id/result_dnf_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/result_textview"
+        android:layout_centerHorizontal="true"
+        android:text="@string/dnf"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:onClick="applyDnf"/>
+
+    <ListView
+        android:id="@+id/penalty_buttons_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/submit_button"
+        android:layout_below="@id/result_dnf_button"
+        android:layout_marginTop="10dip"
+        android:layout_marginBottom="10dip"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"/>
+
+    <Button
+        android:id="@id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit"
-        android:layout_marginTop="30dip"
         android:textSize="30dip"
-        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dip"
+        android:layout_centerHorizontal="true"
         android:onClick="submit"/>
 
-</LinearLayout>
+</RelativeLayout>
