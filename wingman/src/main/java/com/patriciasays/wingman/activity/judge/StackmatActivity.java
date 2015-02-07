@@ -149,12 +149,12 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
                     Toast.makeText(getApplicationContext(),
                             getResources().getString(R.string.inspection_toast_reset_timer),
                             Toast.LENGTH_SHORT).show();
-                } else {
-                    mIsInspecting = true;
-                    mStopwatch.reset();
-                    mStopwatch.start();
-                    postVibrateRunnables();
                 }
+
+                mIsInspecting = true;
+                mStopwatch.reset();
+                mStopwatch.start();
+                postVibrateRunnables();
             }
 
             return true;
