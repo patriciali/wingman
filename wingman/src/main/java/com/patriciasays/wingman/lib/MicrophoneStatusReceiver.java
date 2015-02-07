@@ -1,4 +1,4 @@
-package com.patriciasays.wingman.microphone;
+package com.patriciasays.wingman.lib;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

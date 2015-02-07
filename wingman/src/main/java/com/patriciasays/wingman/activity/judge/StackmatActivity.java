@@ -2,7 +2,6 @@ package com.patriciasays.wingman.activity.judge;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -16,10 +15,9 @@ import android.widget.Toast;
 import com.jflei.fskube.FSKubeWrapper;
 import com.patriciasays.wingman.R;
 import com.patriciasays.wingman.CompetitionToolApp;
-import com.patriciasays.wingman.microphone.MicrophoneListenerActivity;
+import com.patriciasays.wingman.lib.MicrophoneListenerActivity;
 import com.patriciasays.wingman.util.Constants;
-import com.patriciasays.wingman.microphone.MicrophoneStatusReceiver;
-import com.patriciasays.wingman.util.Stopwatch;
+import com.patriciasays.wingman.lib.Stopwatch;
 import com.patriciasays.wingman.util.StringUtils;
 
 public class StackmatActivity extends MicrophoneListenerActivity implements View.OnTouchListener {
@@ -121,7 +119,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
             mIsInspecting = savedInstanceState.getBoolean(ISINSPECTING_BUNDLE_KEY);
         }
 
-        FSKubeWrapper.initialize(Constants.SAMPLE_RATE);
+        FSKubeWrapper.initialize(SAMPLE_RATE);
         FSKubeWrapper.setLogLevels("capi/*,digitizer/*");
         mHandler.post(mUpdateDisplayRunnable);
         if (mIsInspecting && mStopwatch.isRunning()) {

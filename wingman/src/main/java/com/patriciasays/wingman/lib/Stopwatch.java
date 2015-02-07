@@ -1,11 +1,11 @@
-package com.patriciasays.wingman.util;
+package com.patriciasays.wingman.lib;
 
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.util.StringUtils;
 
 public class Stopwatch implements Parcelable {
 

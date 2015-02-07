@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.patriciasays.wingman.data.ServerConstants;
 import com.patriciasays.wingman.util.Constants;
 
 import org.apache.http.HttpEntity;
@@ -24,15 +23,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Be sure to use AsyncTask to call anything in here
- */
 public class ServerApi {
 
     private static final String TAG = "ServerApi";
 
     public static List<String> getCompetitionsList(Context context) {
-        String response = getJsonString(context, ServerConstants.COMPETITIONS_LIST_URL_SUFFIX);
+        String response = getJsonString(context, Constants.COMPETITIONS_LIST_URL_SUFFIX);
 
         if (TextUtils.isEmpty(response)) {
             return new ArrayList<String>();
@@ -43,7 +39,7 @@ public class ServerApi {
             JSONArray array = new JSONArray(response);
             for (int i = 0; i < array.length(); i += 1) {
                 JSONObject competitionObject = (JSONObject) array.get(i);
-                comps.add(competitionObject.getString(ServerConstants.KEY_COMPETITION_NAME));
+                comps.add(competitionObject.getString(Constants.KEY_COMPETITION_NAME));
             }
             return comps;
         } catch (JSONException e) {

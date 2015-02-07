@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.patriciasays.wingman.R;
-import com.patriciasays.wingman.data.ServerConstants;
 import com.patriciasays.wingman.server.DiscoverServerAsyncTask;
 import com.patriciasays.wingman.util.Constants;
 
@@ -64,7 +63,7 @@ public class ServerInfoActivity extends Activity {
         mUseDefaultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                update(ServerConstants.DEFAULT_SERVER_URL, ServerConstants.DEFAULT_PORT);
+                update(Constants.DEFAULT_SERVER_URL, Constants.DEFAULT_PORT);
                 refreshServerInfoDisplay();
             }
         });

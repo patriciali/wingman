@@ -24,6 +24,7 @@ public class SubmitActivity extends Activity {
 
     public static final int INSPECTION_PENALTY_INDEX = 4;
     public static final long DNF_RESULT = -1;
+    public static final int PENALTY_TIME_MILLIS = 2000;
 
     private String[] mHumanReadablePenalties;
     private boolean[] mPenalties;
@@ -122,7 +123,7 @@ public class SubmitActivity extends Activity {
             return getResources().getString(R.string.dnf);
         }
 
-        long penalizedTime = mResultTime + countPenalties() * Constants.PENALTY_TIME_MILLIS;
+        long penalizedTime = mResultTime + countPenalties() * PENALTY_TIME_MILLIS;
         return StringUtils.getFormattedStackmatTime(penalizedTime);
     }
 
