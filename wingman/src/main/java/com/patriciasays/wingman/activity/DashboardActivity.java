@@ -24,10 +24,12 @@ public class DashboardActivity extends Activity {
 
     private static final String[] DASHBOARD_ITEMS = {
             "Setup flow",
-            "Inspection/stackmat input"};
+            "Inspection/stackmat input",
+            "Test submission API"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {
             ServerInfoActivity.class,
-            StackmatActivity.class};
+            StackmatActivity.class,
+            TestActivity.class};
 
     private ListView mListView;
     private ListAdapter mListAdapter;
