@@ -71,7 +71,7 @@ public class ServerInfoActivity extends Activity {
     private void refreshServerInfoDisplay() {
         String serverInfoNotSet = getResources().getString(R.string.server_info_not_set);
         String domainNameString = getResources().getString(R.string.server_info_domain_name) + ": "
-                + mSharedPreferences.getString(Constants.DOMAIN_NAME_PREFERENCE_KEY,serverInfoNotSet);
+                + mSharedPreferences.getString(Constants.URL_PREFERENCE_KEY,serverInfoNotSet);
         String portNumberString = getResources().getString(R.string.server_info_port_number) + ": "
                 + mSharedPreferences.getString(Constants.PORT_NUMBER_PREFERENCE_KEY, serverInfoNotSet);
         mServerInfoDomainNameView.setText(domainNameString);
@@ -115,7 +115,7 @@ public class ServerInfoActivity extends Activity {
 
     private void update(String domainName, String portNumber) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(Constants.DOMAIN_NAME_PREFERENCE_KEY, domainName);
+        editor.putString(Constants.URL_PREFERENCE_KEY, domainName);
         editor.putString(Constants.PORT_NUMBER_PREFERENCE_KEY, portNumber);
         editor.commit();
     }

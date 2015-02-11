@@ -12,8 +12,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.data.Competition;
+import com.patriciasays.wingman.data.Participant;
+import com.patriciasays.wingman.data.Round;
 import com.patriciasays.wingman.server.CCMClientApi;
-import com.patriciasays.wingman.server.ResponseWrapper;
 import com.patriciasays.wingman.util.Constants;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class SelectCompetitionActivity extends Activity {
     private ListView mListView;
     private ListAdapter mListAdapter;
 
-    private List<String> mCompetitions;
+    private List<Competition> mCompetitions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class SelectCompetitionActivity extends Activity {
         setContentView(R.layout.select_competition_activity);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mCompetitions = new ArrayList<String>();
+        mCompetitions = new ArrayList<Competition>();
 
         mListView = (ListView) findViewById(R.id.competitions_listview);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -46,26 +48,29 @@ public class SelectCompetitionActivity extends Activity {
                     Log.e(TAG, "Not enough items in competitions list; position " + position);
                 } else {
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    // TODO this should actually be ID and not name
-                    editor.putString(
-                            Constants.COMPETITION_ID_PREFERENCE_KEY, mCompetitions.get(position));
+                    editor.putString(Constants.COMPETITION_ID_PREFERENCE_KEY,
+                            mCompetitions.get(position).get_id());
                     editor.commit();
                 }
             }
         });
 
-        ResponseWrapper.Listener<List<String>> listener =
-            new ResponseWrapper.Listener<List<String>>() {
-                @Override
-                public void onResponse(List<String> response) {
-                    mCompetitions = response;
-                    mListAdapter = new ArrayAdapter<String>(SelectCompetitionActivity.this,
-                            R.layout.wingman_list_item, mCompetitions);
-                    mListView.setAdapter(mListAdapter);
+        CCMClientApi.Listener<List<Competition>> listener =
+                new CCMClientApi.Listener<List<Competition>>() {
+            @Override
+            public void onResponse(List<Competition> response) {
+                mCompetitions = response;
+
+                List<String> competitionNames = new ArrayList<String>();
+                for (Competition comp : mCompetitions) {
+                    competitionNames.add(comp.getCompetitionName());
                 }
-            };
-        CCMClientApi.getInstance(this).competitionsList(
-                ResponseWrapper.getCompetitionsListWrapper(listener));
+                mListAdapter = new ArrayAdapter<String>(SelectCompetitionActivity.this,
+                        R.layout.wingman_list_item, competitionNames);
+                mListView.setAdapter(mListAdapter);
+            }
+        };
+        CCMClientApi.getInstance(this).competitionsList(listener);
     }
 
     public void finish(View view) {

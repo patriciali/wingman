@@ -9,12 +9,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.patriciasays.wingman.data.Competition;
+import com.patriciasays.wingman.data.Participant;
+import com.patriciasays.wingman.data.Round;
 import com.patriciasays.wingman.util.Constants;
 
-import org.json.JSONArray;
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class CCMClientApi {
 
@@ -26,6 +31,10 @@ public class CCMClientApi {
     private SharedPreferences mSharedPreferences;
     private RequestQueue mRequestQueue;
     private Response.ErrorListener mErrorListener;
+
+    public interface Listener<T> {
+        public void onResponse(T response);
+    }
 
     private CCMClientApi(Context context) {
         mContext = context;
@@ -46,15 +55,55 @@ public class CCMClientApi {
         return sInstance;
     }
 
-    public Request<JSONArray> competitionsList(Response.Listener<JSONArray> listener) {
-        String url = getUrl() + Constants.COMPETITIONS_LIST_URL_SUFFIX;
-        JsonArrayRequest request = new JsonArrayRequest(url, listener, mErrorListener);
+    public Request<String> competitionsList(final Listener<List<Competition>> wrapper) {
+        String url = getBaseUrl() + Constants.COMPETITIONS_URL_SUFFIX;
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Type listType = new TypeToken<List<Competition>>(){}.getType();
+                wrapper.onResponse((List<Competition>) new Gson().fromJson(response, listType));
+            }
+        };
+        return enqueueRequest(url, listener);
+    }
+
+    public Request<String> rounds(final Listener<List<Round>> wrapper) {
+        String url = String.format(getBaseUrl() + Constants.ROUNDS_URL_SUFFIX, getCompetitionId());
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Type listType = new TypeToken<List<Round>>(){}.getType();
+                wrapper.onResponse((List<Round>) new Gson().fromJson(response, listType));
+            }
+        };
+        return enqueueRequest(url, listener);
+    }
+
+    public Request<String> participants(final Listener<List<Participant>> wrapper) {
+        String url =
+                String.format(getBaseUrl() + Constants.PARTICIPANTS_URL_SUFFIX, getCompetitionId());
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Type listType = new TypeToken<List<Participant>>(){}.getType();
+                wrapper.onResponse((List<Participant>) new Gson().fromJson(response, listType));
+            }
+        };
+        return enqueueRequest(url, listener);
+    }
+
+    private Request<String> enqueueRequest(String url, Response.Listener<String> listener) {
+        StringRequest request = new StringRequest(url, listener, mErrorListener);
         return mRequestQueue.add(request);
     }
 
-    private String getUrl() {
-        return mSharedPreferences.getString(Constants.DOMAIN_NAME_PREFERENCE_KEY,
+    private String getBaseUrl() {
+        return mSharedPreferences.getString(Constants.URL_PREFERENCE_KEY,
                 Constants.DEFAULT_SERVER_URL);
+    }
+
+    private String getCompetitionId() {
+        return mSharedPreferences.getString(Constants.COMPETITION_ID_PREFERENCE_KEY, ""); // TODO
     }
 
 }
