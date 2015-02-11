@@ -12,7 +12,7 @@ public class Constants {
     /**
      * Default server values
      */
-    public static final String DEFAULT_SERVER_URL = "staging.live.jflei.com/api/v0";
+    public static final String DEFAULT_SERVER_URL = "http://staging.live.jflei.com/api/v0";
     public static final String DEFAULT_PORT = "80";
 
     /**

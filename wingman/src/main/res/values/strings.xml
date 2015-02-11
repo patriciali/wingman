@@ -18,7 +18,7 @@
 
     <string name="penalty_failure_dnf">Can\'t penalize a DNF</string>
 
-    <string name="server_info_domain_name">Domain name</string>
+    <string name="server_info_domain_name">URL</string>
     <string name="server_info_port_number">Port number</string>
     <string name="server_info_not_set">Not set</string>
     <string name="server_info_auto_discover">Automatically discover server</string>

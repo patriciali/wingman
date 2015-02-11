@@ -2,7 +2,6 @@ package com.patriciasays.wingman.activity.setup;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -11,10 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.patriciasays.wingman.R;
-import com.patriciasays.wingman.server.ServerApi;
+import com.patriciasays.wingman.server.CCMClientApi;
+import com.patriciasays.wingman.server.ResponseWrapper;
 import com.patriciasays.wingman.util.Constants;
 
 import java.util.ArrayList;
@@ -55,28 +54,22 @@ public class SelectCompetitionActivity extends Activity {
             }
         });
 
-        new RetrieveAndPopulateCompetitionsAsyncTask().execute();
+        ResponseWrapper.Listener<List<String>> listener =
+            new ResponseWrapper.Listener<List<String>>() {
+                @Override
+                public void onResponse(List<String> response) {
+                    mCompetitions = response;
+                    mListAdapter = new ArrayAdapter<String>(SelectCompetitionActivity.this,
+                            R.layout.wingman_list_item, mCompetitions);
+                    mListView.setAdapter(mListAdapter);
+                }
+            };
+        CCMClientApi.getInstance(this).competitionsList(
+                ResponseWrapper.getCompetitionsListWrapper(listener));
     }
 
     public void finish(View view) {
         // TODO
-    }
-
-    private class RetrieveAndPopulateCompetitionsAsyncTask extends
-            AsyncTask<Void, Void, List<String>> {
-
-        @Override
-        protected List<String> doInBackground(Void... voids) {
-            return ServerApi.getCompetitionsList(SelectCompetitionActivity.this);
-        }
-
-        @Override
-        protected void onPostExecute(List<String> competitionsList) {
-            mCompetitions = competitionsList;
-            mListAdapter = new ArrayAdapter<String>(
-                    SelectCompetitionActivity.this, R.layout.wingman_list_item, mCompetitions);
-            mListView.setAdapter(mListAdapter);
-        }
     }
 
 }

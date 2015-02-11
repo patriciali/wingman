@@ -1,4 +1,4 @@
-package com.patriciasays.wingman.server;
+package com.patriciasays.wingman.lib;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;
