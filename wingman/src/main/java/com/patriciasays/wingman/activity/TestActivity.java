@@ -16,7 +16,7 @@ public class TestActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Result.SolveTime solveTime = new Result.SolveTime();
-        solveTime.setMillis(4000);
+        solveTime.setMillis(3000);
         solveTime.setDecimals(2);
         solveTime.setPuzzlesSolvedCount(1);
         solveTime.setPuzzlesAttemptedCount(1);

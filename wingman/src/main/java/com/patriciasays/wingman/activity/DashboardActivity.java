@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.patriciasays.wingman.R;
 import com.patriciasays.wingman.activity.judge.StackmatActivity;
+import com.patriciasays.wingman.activity.setup.LoginActivity;
 import com.patriciasays.wingman.activity.setup.ServerInfoActivity;
 
 /**
@@ -24,10 +25,12 @@ public class DashboardActivity extends Activity {
 
     private static final String[] DASHBOARD_ITEMS = {
             "Setup flow",
+            "Login",
             "Inspection/stackmat input",
             "Test submission API"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {
             ServerInfoActivity.class,
+            LoginActivity.class,
             StackmatActivity.class,
             TestActivity.class};
 

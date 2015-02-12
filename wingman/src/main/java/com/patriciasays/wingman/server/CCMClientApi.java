@@ -104,7 +104,7 @@ public class CCMClientApi {
                                       final Listener<ResultWrapper> listener) {
         String url = String.format(getBaseUrl() + Constants.UPLOAD_TIME_URL_SUFFIX,
                 resultWrapper._id, resultWrapper.eventCode, resultWrapper.nthRound,
-                "zk8HiOoe7Pn8LM_0tMDm3IuT9N6pIofkJtH4qrarl3j");
+                mSharedPreferences.getString(Constants.AUTH_TOKEN_PREFERENCE_KEY, ""));
         Response.Listener<Result> wrapper = new Response.Listener<Result>() {
             @Override
             public void onResponse(Result response) {
@@ -113,7 +113,6 @@ public class CCMClientApi {
         };
 
         String body = new Gson().toJson(resultWrapper.result);
-        Log.d("fuck", body);
 
         JsonRequest<Result> request = new JsonRequest<Result>(Request.Method.PUT, url,
                 body, wrapper, mErrorListener) {
