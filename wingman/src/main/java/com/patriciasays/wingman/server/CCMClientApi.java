@@ -5,16 +5,21 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.patriciasays.wingman.data.Competition;
 import com.patriciasays.wingman.data.Participant;
+import com.patriciasays.wingman.data.Result;
+import com.patriciasays.wingman.data.ResultWrapper;
 import com.patriciasays.wingman.data.Round;
 import com.patriciasays.wingman.util.Constants;
 
@@ -55,45 +60,73 @@ public class CCMClientApi {
         return sInstance;
     }
 
-    public Request<String> competitionsList(final Listener<List<Competition>> wrapper) {
+    public Request<String> competitionsList(final Listener<List<Competition>> listener) {
         String url = getBaseUrl() + Constants.COMPETITIONS_URL_SUFFIX;
-        Response.Listener<String> listener = new Response.Listener<String>() {
+        Response.Listener<String> wrapper = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Type listType = new TypeToken<List<Competition>>(){}.getType();
-                wrapper.onResponse((List<Competition>) new Gson().fromJson(response, listType));
+                listener.onResponse((List<Competition>) new Gson().fromJson(response, listType));
             }
         };
-        return enqueueRequest(url, listener);
+        StringRequest request = new StringRequest(url, wrapper, mErrorListener);
+        return enqueueRequest(request);
     }
 
-    public Request<String> rounds(final Listener<List<Round>> wrapper) {
+    public Request<String> rounds(final Listener<List<Round>> listener) {
         String url = String.format(getBaseUrl() + Constants.ROUNDS_URL_SUFFIX, getCompetitionId());
-        Response.Listener<String> listener = new Response.Listener<String>() {
+        Response.Listener<String> wrapper = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Type listType = new TypeToken<List<Round>>(){}.getType();
-                wrapper.onResponse((List<Round>) new Gson().fromJson(response, listType));
+                listener.onResponse((List<Round>) new Gson().fromJson(response, listType));
             }
         };
-        return enqueueRequest(url, listener);
+        StringRequest request = new StringRequest(url, wrapper, mErrorListener);
+        return enqueueRequest(request);
     }
 
-    public Request<String> participants(final Listener<List<Participant>> wrapper) {
+    public Request<String> participants(final Listener<List<Participant>> listener) {
         String url =
                 String.format(getBaseUrl() + Constants.PARTICIPANTS_URL_SUFFIX, getCompetitionId());
-        Response.Listener<String> listener = new Response.Listener<String>() {
+        Response.Listener<String> wrapper = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Type listType = new TypeToken<List<Participant>>(){}.getType();
-                wrapper.onResponse((List<Participant>) new Gson().fromJson(response, listType));
+                listener.onResponse((List<Participant>) new Gson().fromJson(response, listType));
             }
         };
-        return enqueueRequest(url, listener);
+        StringRequest request = new StringRequest(url, wrapper, mErrorListener);
+        return enqueueRequest(request);
     }
 
-    private Request<String> enqueueRequest(String url, Response.Listener<String> listener) {
-        StringRequest request = new StringRequest(url, listener, mErrorListener);
+    public Request<String> submitTime(ResultWrapper resultWrapper,
+                                      final Listener<ResultWrapper> listener) {
+        String url = String.format(getBaseUrl() + Constants.UPLOAD_TIME_URL_SUFFIX,
+                resultWrapper._id, resultWrapper.eventCode, resultWrapper.nthRound,
+                "zk8HiOoe7Pn8LM_0tMDm3IuT9N6pIofkJtH4qrarl3j");
+        Response.Listener<Result> wrapper = new Response.Listener<Result>() {
+            @Override
+            public void onResponse(Result response) {
+                // TODO if failure?
+            }
+        };
+
+        String body = new Gson().toJson(resultWrapper.result);
+        Log.d("fuck", body);
+
+        JsonRequest<Result> request = new JsonRequest<Result>(Request.Method.PUT, url,
+                body, wrapper, mErrorListener) {
+            @Override
+            protected Response<Result> parseNetworkResponse(NetworkResponse response) {
+                // TODO wtf does this do
+                return null;
+            }
+        };
+        return enqueueRequest(request);
+    }
+
+    private Request<String> enqueueRequest(Request request) {
         return mRequestQueue.add(request);
     }
 

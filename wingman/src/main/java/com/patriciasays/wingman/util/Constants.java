@@ -20,8 +20,13 @@ public class Constants {
      * Server API endpoints
      */
     public static final String COMPETITIONS_URL_SUFFIX = "/competitions";
-    public static final String ROUNDS_URL_SUFFIX = "/competitions/%s/rounds"; // _id of competition
+    // competition _id
+    public static final String ROUNDS_URL_SUFFIX = "/competitions/%s/rounds";
+    // competition _id
     public static final String PARTICIPANTS_URL_SUFFIX =
-            "/competitions/%s/registrations"; // _id of competition
+            "/competitions/%s/registrations";
+    // competition _id, eventCode, nthRound, token
+    public static final String UPLOAD_TIME_URL_SUFFIX =
+            "/competitions/%s/rounds/%s/%d/results?token=%s";
 
 }
