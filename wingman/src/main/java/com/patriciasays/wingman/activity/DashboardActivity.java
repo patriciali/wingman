@@ -25,12 +25,10 @@ public class DashboardActivity extends Activity {
 
     private static final String[] DASHBOARD_ITEMS = {
             "Setup flow",
-            "Login",
             "Inspection/stackmat input",
             "Test submission API"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {
             ServerInfoActivity.class,
-            LoginActivity.class,
             StackmatActivity.class,
             TestActivity.class};
 

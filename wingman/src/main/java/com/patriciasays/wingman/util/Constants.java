@@ -9,6 +9,7 @@ public class Constants {
     public static final String GET_AUTH_TOKEN_JS =
             "Meteor.loginWithPassword('%s', '%s', function(err) { if(err) { throw err; } " +
                     "AndroidFunction.jsSetToken(Accounts._storedLoginToken()); })";
+    public static final String AUTH_TOKEN_STOPSHIP = "4dGr0rI5RzO3e7ily9JN_SzoyBz9baDe5usS8XpSlE6";
 
     /**
      * Key names for storing information in SharedPreferences

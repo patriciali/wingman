@@ -104,7 +104,8 @@ public class CCMClientApi {
                                       final Listener<ResultWrapper> listener) {
         String url = String.format(getBaseUrl() + Constants.UPLOAD_TIME_URL_SUFFIX,
                 resultWrapper._id, resultWrapper.eventCode, resultWrapper.nthRound,
-                mSharedPreferences.getString(Constants.AUTH_TOKEN_PREFERENCE_KEY, ""));
+                mSharedPreferences.getString(
+                        Constants.AUTH_TOKEN_PREFERENCE_KEY, Constants.AUTH_TOKEN_STOPSHIP));
         Response.Listener<Result> wrapper = new Response.Listener<Result>() {
             @Override
             public void onResponse(Result response) {
