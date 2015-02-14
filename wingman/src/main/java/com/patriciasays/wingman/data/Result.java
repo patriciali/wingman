@@ -3,6 +3,15 @@ package com.patriciasays.wingman.data;
 
 public class Result {
 
+    public Result() {
+
+    }
+
+    public Result(String registrationId_, int solveIndex_) {
+        this.registrationId = registrationId_;
+        this.solveIndex = solveIndex_;
+    }
+
     private String registrationId;
     private SolveTime solveTime;
     private int solveIndex;

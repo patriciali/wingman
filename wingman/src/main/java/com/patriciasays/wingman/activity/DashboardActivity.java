@@ -12,6 +12,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.activity.judge.IdActivity;
 import com.patriciasays.wingman.activity.judge.StackmatActivity;
 import com.patriciasays.wingman.activity.setup.LoginActivity;
 import com.patriciasays.wingman.activity.setup.ServerInfoActivity;
@@ -25,12 +26,10 @@ public class DashboardActivity extends Activity {
 
     private static final String[] DASHBOARD_ITEMS = {
             "Setup flow",
-            "Inspection/stackmat input",
-            "Test submission API"};
+            "Judging flow"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {
             ServerInfoActivity.class,
-            StackmatActivity.class,
-            TestActivity.class};
+            IdActivity.class};
 
     private ListView mListView;
     private ListAdapter mListAdapter;

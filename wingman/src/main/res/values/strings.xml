@@ -17,6 +17,12 @@
     <string name="username">username</string>
     <string name="password">password</string>
 
+    <string name="select_competitor_toast">Please type in a competitor name</string>
+    <string name="select_round_toast">Please select a round from the dropdown</string>
+    <string name="type_participant_name">Type participant name</string>
+    <string name="select_round">Select round</string>
+    <string name="select_round_display_string">%1$s Round %2$d</string>
+
     <string name="inspection_toast_reset_timer">Please reset the timer</string>
     <string name="inspection_toast_turn_on_timer">Please turn on the timer</string>
 

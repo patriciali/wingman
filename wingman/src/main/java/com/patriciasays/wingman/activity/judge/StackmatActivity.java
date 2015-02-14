@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.jflei.fskube.FSKubeWrapper;
 import com.patriciasays.wingman.R;
 import com.patriciasays.wingman.CompetitionToolApp;
+import com.patriciasays.wingman.data.ResultWrapper;
 import com.patriciasays.wingman.lib.MicrophoneListenerActivity;
 import com.patriciasays.wingman.util.Constants;
 import com.patriciasays.wingman.lib.Stopwatch;
@@ -30,6 +31,8 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
     private static final int REFRESH_DISPLAY_FPS = 50;
     private static final int REFRESH_DISPLAY_INTERVAL_MILLIS = 1000/REFRESH_DISPLAY_FPS;
     private static final int VIBRATE_DURATION_MILLIS = 1000;
+
+    private ResultWrapper mResultWrapper;
 
     private Stopwatch mStopwatch;
     private Vibrator mVibrator;
@@ -92,6 +95,8 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stackmat_activity);
+
+        mResultWrapper = getIntent().getParcelableExtra(SubmitActivity.EXTRA_RESULT_WRAPPER);
 
         mMicLevelView = (TextView) findViewById(R.id.microphone_level_textview);
         mMicStatusView = (TextView) findViewById(R.id.microphone_status_textview);
@@ -199,6 +204,7 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
                     (long) FSKubeWrapper.getTimeMillis());
         }
         intent.putExtra(SubmitActivity.EXTRA_HAS_INSPECTION_PENALTY, mHasInspectionPenalty);
+        intent.putExtra(SubmitActivity.EXTRA_RESULT_WRAPPER, mResultWrapper);
         startActivity(intent);
     }
 
