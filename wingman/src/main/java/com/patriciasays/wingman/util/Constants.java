@@ -34,9 +34,9 @@ public class Constants {
     // competition _id
     public static final String PARTICIPANTS_URL_SUFFIX =
             "/v0/competitions/%s/registrations";
-    // competition _id, eventCode, nthRound
+    // competition _id, eventCode, nthRound, registrationId
     public static final String AVERAGE_IN_PROGRESS_URL_SUFFIX =
-            "/v0/competitions/%s/rounds/%s/%s/results";
+            "/v0/competitions/%s/rounds/%s/%s/results?registrationId=%s";
     // competition _id, eventCode, nthRound, token
     public static final String UPLOAD_TIME_URL_SUFFIX =
             "/v0/competitions/%s/rounds/%s/%d/results?token=%s";

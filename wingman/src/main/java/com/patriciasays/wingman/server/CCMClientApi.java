@@ -16,15 +16,12 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.patriciasays.wingman.data.Average;
-import com.patriciasays.wingman.data.AverageInProgressRequestData;
 import com.patriciasays.wingman.data.Competition;
 import com.patriciasays.wingman.data.Participant;
 import com.patriciasays.wingman.data.Result;
 import com.patriciasays.wingman.data.ResultWrapper;
 import com.patriciasays.wingman.data.Round;
 import com.patriciasays.wingman.util.Constants;
-
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -106,7 +103,7 @@ public class CCMClientApi {
     public Request<String> averageInProgress(
             String eventCode, int nthRound, String regId, final Listener<Average> listener) {
         String url = String.format(getBaseUrl() + Constants.AVERAGE_IN_PROGRESS_URL_SUFFIX,
-                getCompetitionId(), eventCode, nthRound);
+                getCompetitionId(), eventCode, nthRound, regId);
         Response.Listener<String> wrapper = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -115,9 +112,7 @@ public class CCMClientApi {
                 listener.onResponse(averages.get(0));
             }
         };
-
-        String body = new Gson().toJson(new AverageInProgressRequestData(regId));
-        CCMClientRequest request = new CCMClientRequest(url, body, wrapper, mErrorListener);
+        StringRequest request = new StringRequest(url, wrapper, mErrorListener);
         return enqueueRequest(request);
     }
 
