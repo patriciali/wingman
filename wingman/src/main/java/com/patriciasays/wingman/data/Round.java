@@ -112,14 +112,14 @@ public class Round {
     }
 
     public static class Progress {
-        private int done;
+        private double done;
         private int total;
 
-        public int getDone() {
+        public double getDone() {
             return done;
         }
 
-        public void setDone(int done) {
+        public void setDone(double done) {
             this.done = done;
         }
 

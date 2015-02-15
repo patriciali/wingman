@@ -119,8 +119,6 @@ public class SubmitActivity extends Activity {
             solveTime.setPenalties(penalties);
         }
 
-        mResultWrapper._id =
-                mSharedPreferences.getString(Constants.COMPETITION_ID_PREFERENCE_KEY, null);
         mResultWrapper.result.setSolveTime(solveTime);
 
         CCMClientApi.getInstance(this).submitTime(mResultWrapper, null);

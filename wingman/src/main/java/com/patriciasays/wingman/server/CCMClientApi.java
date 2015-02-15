@@ -15,12 +15,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.patriciasays.wingman.data.Average;
+import com.patriciasays.wingman.data.AverageInProgressRequestData;
 import com.patriciasays.wingman.data.Competition;
 import com.patriciasays.wingman.data.Participant;
 import com.patriciasays.wingman.data.Result;
 import com.patriciasays.wingman.data.ResultWrapper;
 import com.patriciasays.wingman.data.Round;
 import com.patriciasays.wingman.util.Constants;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -99,16 +103,34 @@ public class CCMClientApi {
         return enqueueRequest(request);
     }
 
+    public Request<String> averageInProgress(
+            String eventCode, int nthRound, String regId, final Listener<Average> listener) {
+        String url = String.format(getBaseUrl() + Constants.AVERAGE_IN_PROGRESS_URL_SUFFIX,
+                getCompetitionId(), eventCode, nthRound);
+        Response.Listener<String> wrapper = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Type listType = new TypeToken<List<Average>>(){}.getType();
+                List<Average> averages = new Gson().fromJson(response, listType);
+                listener.onResponse(averages.get(0));
+            }
+        };
+
+        String body = new Gson().toJson(new AverageInProgressRequestData(regId));
+        CCMClientRequest request = new CCMClientRequest(url, body, wrapper, mErrorListener);
+        return enqueueRequest(request);
+    }
+
     public Request<String> submitTime(ResultWrapper resultWrapper,
                                       final Listener<ResultWrapper> listener) {
         String url = String.format(getBaseUrl() + Constants.UPLOAD_TIME_URL_SUFFIX,
-                resultWrapper._id, resultWrapper.eventCode, resultWrapper.nthRound,
+                getCompetitionId(), resultWrapper.eventCode, resultWrapper.nthRound,
                 mSharedPreferences.getString(
                         Constants.AUTH_TOKEN_PREFERENCE_KEY, Constants.AUTH_TOKEN_STOPSHIP));
         Response.Listener<Result> wrapper = new Response.Listener<Result>() {
             @Override
             public void onResponse(Result response) {
-                // TODO if failure?
+                // TODO we don't look at response but we should (in case of failure)
             }
         };
 
@@ -118,7 +140,6 @@ public class CCMClientApi {
                 body, wrapper, mErrorListener) {
             @Override
             protected Response<Result> parseNetworkResponse(NetworkResponse response) {
-                // TODO wtf does this do
                 return null;
             }
         };

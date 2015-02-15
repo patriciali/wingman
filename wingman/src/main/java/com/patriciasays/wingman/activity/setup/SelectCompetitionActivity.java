@@ -1,6 +1,7 @@
 package com.patriciasays.wingman.activity.setup;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.activity.DashboardActivity;
 import com.patriciasays.wingman.data.Competition;
 import com.patriciasays.wingman.data.Participant;
 import com.patriciasays.wingman.data.Round;
@@ -75,6 +77,8 @@ public class SelectCompetitionActivity extends Activity {
 
     public void finish(View view) {
         // TODO
+        Intent intent = new Intent(this, DashboardActivity.class);
+        startActivity(intent);
     }
 
 }

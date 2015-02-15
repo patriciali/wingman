@@ -1,6 +1,8 @@
 package com.patriciasays.wingman.data;
 
-
+/**
+ * Result object that we upload to server
+ */
 public class Result {
 
     public Result() {

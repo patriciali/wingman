@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.patriciasays.wingman.R;
+import com.patriciasays.wingman.data.Average;
 import com.patriciasays.wingman.data.Participant;
 import com.patriciasays.wingman.data.Result;
 import com.patriciasays.wingman.data.ResultWrapper;
@@ -106,12 +107,10 @@ public class IdActivity extends Activity {
     }
 
     public void next(View view) {
-        // TODO query for solve index
         String participantName = String.valueOf(mSelectParticipantView.getText());
         mResultWrapper.result.setRegistrationId(
                 mParticipantNamesToIds.get(participantName.toLowerCase()));
 
-        Intent intent = new Intent(this, StackmatActivity.class);
         if (TextUtils.isEmpty(mResultWrapper.result.getRegistrationId())) {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.select_competitor_toast),
@@ -125,8 +124,20 @@ public class IdActivity extends Activity {
             return;
         }
 
-        intent.putExtra(SubmitActivity.EXTRA_RESULT_WRAPPER, mResultWrapper);
-        startActivity(intent);
+        final Intent intent = new Intent(this, StackmatActivity.class);
+        CCMClientApi.getInstance(this).averageInProgress(mResultWrapper.eventCode,
+                mResultWrapper.nthRound, mResultWrapper.result.getRegistrationId(),
+                new CCMClientApi.Listener<Average>() {
+                    @Override
+                    public void onResponse(Average response) {
+                        // TODO if participant has been cutoffed or is done, don't let them continue
+                        int solvesDone = response.getSolves().length;
+                        mResultWrapper.result.setSolveIndex(solvesDone);
+
+                        intent.putExtra(SubmitActivity.EXTRA_RESULT_WRAPPER, mResultWrapper);
+                        startActivity(intent);
+                    }
+                });
     }
 
 }
