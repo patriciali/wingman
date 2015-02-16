@@ -32,6 +32,8 @@ public class SelectCompetitionActivity extends NeedsNetworkActivity {
 
     private List<Competition> mCompetitions;
 
+    private View mPreviouslySelectedView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,12 @@ public class SelectCompetitionActivity extends NeedsNetworkActivity {
                     editor.putString(Constants.COMPETITION_ID_HUMAN_READABLE_PREFERENCE_KEY,
                             mCompetitions.get(position).getCompetitionName());
                     editor.commit();
+
+                    updateSelectedButtonBackground(view, true);
+                    if (mPreviouslySelectedView != null) {
+                        updateSelectedButtonBackground(mPreviouslySelectedView, false);
+                    }
+                    mPreviouslySelectedView = view;
                 }
             }
         });
@@ -79,6 +87,14 @@ public class SelectCompetitionActivity extends NeedsNetworkActivity {
         // TODO
         Intent intent = new Intent(this, DashboardActivity.class);
         startActivity(intent);
+    }
+
+    private void updateSelectedButtonBackground(View view, boolean selected) {
+        if (selected) {
+            view.setBackgroundColor(getResources().getColor(R.color.green));
+        } else {
+            view.setBackground(null);
+        }
     }
 
 }
