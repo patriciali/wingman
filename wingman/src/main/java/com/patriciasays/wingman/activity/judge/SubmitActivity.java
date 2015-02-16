@@ -1,29 +1,26 @@
 package com.patriciasays.wingman.activity.judge;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.patriciasays.wingman.R;
 import com.patriciasays.wingman.data.Result;
 import com.patriciasays.wingman.data.ResultWrapper;
+import com.patriciasays.wingman.activity.common.NeedsNetworkActivity;
 import com.patriciasays.wingman.server.CCMClientApi;
-import com.patriciasays.wingman.util.Constants;
 import com.patriciasays.wingman.util.StringUtils;
 
-public class SubmitActivity extends Activity {
+public class SubmitActivity extends NeedsNetworkActivity {
 
     public static final String EXTRA_RESULT_WRAPPER = "extra_result_wrapper";
     public static final String EXTRA_SOLVE_RESULT = "extra_solve_result";

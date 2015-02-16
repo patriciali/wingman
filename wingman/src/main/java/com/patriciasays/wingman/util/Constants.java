@@ -17,6 +17,7 @@ public class Constants {
     public static final String URL_PREFERENCE_KEY = "url_key";
     public static final String PORT_NUMBER_PREFERENCE_KEY = "port_number_key";
     public static final String COMPETITION_ID_PREFERENCE_KEY = "comp_id_key";
+    public static final String COMPETITION_ID_HUMAN_READABLE_PREFERENCE_KEY = "comp_human_id_key";
     public static final String AUTH_TOKEN_PREFERENCE_KEY = "auth_token_key";
 
     /**

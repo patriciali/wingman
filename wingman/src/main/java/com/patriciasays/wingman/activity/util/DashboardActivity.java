@@ -1,9 +1,10 @@
-package com.patriciasays.wingman.activity;
+package com.patriciasays.wingman.activity.util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,8 +14,6 @@ import android.widget.ListView;
 
 import com.patriciasays.wingman.R;
 import com.patriciasays.wingman.activity.judge.IdActivity;
-import com.patriciasays.wingman.activity.judge.StackmatActivity;
-import com.patriciasays.wingman.activity.setup.LoginActivity;
 import com.patriciasays.wingman.activity.setup.ServerInfoActivity;
 
 /**

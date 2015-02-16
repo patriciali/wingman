@@ -1,6 +1,5 @@
 package com.patriciasays.wingman.activity.judge;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,6 +16,7 @@ import com.patriciasays.wingman.data.Participant;
 import com.patriciasays.wingman.data.Result;
 import com.patriciasays.wingman.data.ResultWrapper;
 import com.patriciasays.wingman.data.Round;
+import com.patriciasays.wingman.activity.common.NeedsNetworkActivity;
 import com.patriciasays.wingman.server.CCMClientApi;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class IdActivity extends Activity {
+public class IdActivity extends NeedsNetworkActivity {
 
     private AutoCompleteTextView mSelectParticipantView;
     private Spinner mSelectRoundView;
@@ -76,7 +76,11 @@ public class IdActivity extends Activity {
 
             }
         });
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
         sendRequests();
     }
 
@@ -84,6 +88,9 @@ public class IdActivity extends Activity {
         CCMClientApi.getInstance(this).participants(new CCMClientApi.Listener<List<Participant>>() {
             @Override
             public void onResponse(List<Participant> response) {
+                mParticipantNames.clear();
+                mParticipantNamesToIds.clear();
+
                 for (Participant p : response) {
                     mParticipantNames.add(p.getUniqueName());
                     mParticipantNamesToIds.put(p.getUniqueName().toLowerCase(), p.get_id());
@@ -94,6 +101,9 @@ public class IdActivity extends Activity {
         CCMClientApi.getInstance(this).rounds(new CCMClientApi.Listener<List<Round>>() {
             @Override
             public void onResponse(List<Round> response) {
+                mRoundNames.clear();
+                mRounds.clear();
+
                 for (Round r : response) {
                     String displayString = String.format(
                             getResources().getString(R.string.select_round_display_string),

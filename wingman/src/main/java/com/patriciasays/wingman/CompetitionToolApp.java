@@ -52,4 +52,9 @@ public class CompetitionToolApp extends Application {
         mIsMicAvailable = status;
     }
 
+    public String getApplicationName() {
+        int stringId = this.getApplicationInfo().labelRes;
+        return this.getString(stringId);
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.patriciasays.wingman.activity.setup;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,17 +12,16 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.patriciasays.wingman.R;
-import com.patriciasays.wingman.activity.DashboardActivity;
+import com.patriciasays.wingman.activity.util.DashboardActivity;
 import com.patriciasays.wingman.data.Competition;
-import com.patriciasays.wingman.data.Participant;
-import com.patriciasays.wingman.data.Round;
+import com.patriciasays.wingman.activity.common.NeedsNetworkActivity;
 import com.patriciasays.wingman.server.CCMClientApi;
 import com.patriciasays.wingman.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectCompetitionActivity extends Activity {
+public class SelectCompetitionActivity extends NeedsNetworkActivity {
 
     private static final String TAG = "SelectCompetitionActivity";
 
@@ -52,6 +50,8 @@ public class SelectCompetitionActivity extends Activity {
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.putString(Constants.COMPETITION_ID_PREFERENCE_KEY,
                             mCompetitions.get(position).get_id());
+                    editor.putString(Constants.COMPETITION_ID_HUMAN_READABLE_PREFERENCE_KEY,
+                            mCompetitions.get(position).getCompetitionName());
                     editor.commit();
                 }
             }

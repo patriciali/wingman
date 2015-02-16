@@ -1,14 +1,11 @@
-package com.patriciasays.wingman.lib;
+package com.patriciasays.wingman.activity.common;
 
-import android.app.Activity;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 
-import com.patriciasays.wingman.util.Constants;
-
-public abstract class MicrophoneListenerActivity extends Activity {
+public abstract class MicrophoneListenerActivity extends WingmanActivity {
 
     public static final int SAMPLE_RATE = 44100;
     private static final int BUFFER_SIZE = 8*1024;

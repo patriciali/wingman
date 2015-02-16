@@ -16,8 +16,7 @@ import com.jflei.fskube.FSKubeWrapper;
 import com.patriciasays.wingman.R;
 import com.patriciasays.wingman.CompetitionToolApp;
 import com.patriciasays.wingman.data.ResultWrapper;
-import com.patriciasays.wingman.lib.MicrophoneListenerActivity;
-import com.patriciasays.wingman.util.Constants;
+import com.patriciasays.wingman.activity.common.MicrophoneListenerActivity;
 import com.patriciasays.wingman.lib.Stopwatch;
 import com.patriciasays.wingman.util.StringUtils;
 
