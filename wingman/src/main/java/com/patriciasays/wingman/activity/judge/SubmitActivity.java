@@ -119,6 +119,8 @@ public class SubmitActivity extends NeedsNetworkActivity {
         mResultWrapper.result.setSolveTime(solveTime);
 
         CCMClientApi.getInstance(this).submitTime(mResultWrapper, null);
+
+        startActivity(new Intent(this, IdActivity.class));
     }
 
     private void updateSelectedButtonBackground(View view, boolean selected) {

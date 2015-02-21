@@ -18,6 +18,11 @@ public class Result {
     private SolveTime solveTime;
     private int solveIndex;
 
+    @Override
+    public String toString() {
+        return "registrationId: " + this.registrationId + ", solveIndex: " + this.solveIndex + ", solveTime: " + this.solveTime;
+    }
+
     public String getRegistrationId() {
         return registrationId;
     }
@@ -50,6 +55,11 @@ public class Result {
         private String[] penalties;
         private int puzzlesSolvedCount;
         private int puzzlesAttemptedCount;
+
+        @Override
+        public String toString() {
+            return "millis: " + millis;
+        }
 
         public long getMillis() {
             return millis;

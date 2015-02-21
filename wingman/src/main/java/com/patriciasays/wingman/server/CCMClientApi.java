@@ -126,6 +126,7 @@ public class CCMClientApi {
             @Override
             public void onResponse(Result response) {
                 // TODO we don't look at response but we should (in case of failure)
+                Log.d(TAG, "onResponse");
             }
         };
 
@@ -135,7 +136,12 @@ public class CCMClientApi {
                 body, wrapper, mErrorListener) {
             @Override
             protected Response<Result> parseNetworkResponse(NetworkResponse response) {
-                return null;
+                if (response != null && response.data != null) {
+                    Log.d(TAG, new String(response.data));
+                }
+
+                // TODO parse network response, deal with errors
+                return Response.success(null, null);
             }
         };
         return enqueueRequest(request);
