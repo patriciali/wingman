@@ -20,6 +20,9 @@
     <string name="needs_network">This tool needs a network connection. Please connect to the network to continue.</string>
     <string name="wifi_settings">Go to wifi settings</string>
 
+    <string name="manually_enter_time">!!</string>
+    <string name="manually_enter_time_hint">time in millis</string>
+
     <string name="select_competitor_toast">Please type in a valid competitor name</string>
     <string name="select_round_toast">Please select a round from the dropdown</string>
     <string name="type_participant_name">Type participant name</string>

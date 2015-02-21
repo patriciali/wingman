@@ -1,14 +1,23 @@
 package com.patriciasays.wingman.activity.judge;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -190,13 +199,21 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
     }
 
     public void next(View view) {
+        submit(mDisplayView.getText().toString(), (long) FSKubeWrapper.getTimeMillis());
+    }
+
+    public void manualEnterTime(View view) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        DialogFragment editDialogFragment = new ManuallyEnterTimeFragment();
+        editDialogFragment.show(transaction, "dialog");
+    }
+
+    private void submit(String resultDisplay, long resultMillis) {
         Intent intent = new Intent(this, SubmitActivity.class);
-        String result = mDisplayView.getText().toString();
-        if (TextUtils.equals(result, mStopwatch.getDnfMessage())) {
+        if (TextUtils.equals(resultDisplay, mStopwatch.getDnfMessage())) {
             intent.putExtra(SubmitActivity.EXTRA_SOLVE_RESULT, SubmitActivity.DNF_RESULT);
         } else {
-            intent.putExtra(SubmitActivity.EXTRA_SOLVE_RESULT,
-                    (long) FSKubeWrapper.getTimeMillis());
+            intent.putExtra(SubmitActivity.EXTRA_SOLVE_RESULT, resultMillis);
         }
         intent.putExtra(SubmitActivity.EXTRA_HAS_INSPECTION_PENALTY, mHasInspectionPenalty);
         intent.putExtra(SubmitActivity.EXTRA_RESULT_WRAPPER, mResultWrapper);
@@ -217,6 +234,32 @@ public class StackmatActivity extends MicrophoneListenerActivity implements View
             if (delayed > 0) {
                 mHandler.postDelayed(mVibrateRunnable, delayed);
             }
+        }
+    }
+
+    @SuppressLint("ValidFragment")
+    class ManuallyEnterTimeFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            View parent = inflater.inflate(R.layout.manually_enter_time_dialog, null);
+            builder.setView(parent);
+            final EditText timeEditText = (EditText) parent.findViewById(R.id.time_edit_text);
+
+            builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    submit("TODO", Integer.parseInt(timeEditText.getText().toString()));
+                }
+            })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            ManuallyEnterTimeFragment.this.getDialog().cancel();
+                        }
+                    });
+            return builder.create();
         }
     }
 }
