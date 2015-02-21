@@ -146,8 +146,11 @@ public class CCMClientApi {
     }
 
     private String getBaseUrl() {
-        return mSharedPreferences.getString(Constants.URL_PREFERENCE_KEY,
+        String url = mSharedPreferences.getString(Constants.URL_PREFERENCE_KEY,
                 Constants.DEFAULT_SERVER_URL);
+        String port = mSharedPreferences.getString(Constants.PORT_NUMBER_PREFERENCE_KEY,
+                Constants.DEFAULT_PORT);
+        return url + ":" + port;
     }
 
     private String getCompetitionId() {

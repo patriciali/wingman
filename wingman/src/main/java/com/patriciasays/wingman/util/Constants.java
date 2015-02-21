@@ -23,23 +23,23 @@ public class Constants {
     /**
      * Default server values
      */
-    public static final String DEFAULT_SERVER_URL = "http://staging.live.jflei.com/api";
+    public static final String DEFAULT_SERVER_URL = "http://staging.live.jflei.com";
     public static final String DEFAULT_PORT = "80";
 
     /**
      * Server API endpoints
      */
-    public static final String COMPETITIONS_URL_SUFFIX = "/v0/competitions";
+    public static final String COMPETITIONS_URL_SUFFIX = "/api/v0/competitions";
     // competition _id
-    public static final String ROUNDS_URL_SUFFIX = "/v0/competitions/%s/rounds";
+    public static final String ROUNDS_URL_SUFFIX = "/api/v0/competitions/%s/rounds";
     // competition _id
     public static final String PARTICIPANTS_URL_SUFFIX =
-            "/v0/competitions/%s/registrations";
+            "/api/v0/competitions/%s/registrations";
     // competition _id, eventCode, nthRound, registrationId
     public static final String AVERAGE_IN_PROGRESS_URL_SUFFIX =
-            "/v0/competitions/%s/rounds/%s/%s/results?registrationId=%s";
+            "/api/v0/competitions/%s/rounds/%s/%s/results?registrationId=%s";
     // competition _id, eventCode, nthRound, token
     public static final String UPLOAD_TIME_URL_SUFFIX =
-            "/v0/competitions/%s/rounds/%s/%d/results?token=%s";
+            "/api/v0/competitions/%s/rounds/%s/%d/results?token=%s";
 
 }
