@@ -2,13 +2,6 @@ package com.patriciasays.wingman.util;
 
 public class Constants {
 
-    /**
-     * Javascript script to send login
-     * email, password
-     */
-    public static final String GET_AUTH_TOKEN_JS =
-            "Meteor.loginWithPassword('%s', '%s', function(err) { if(err) { throw err; } " +
-                    "AndroidFunction.jsSetToken(Accounts._storedLoginToken()); })";
     public static final String AUTH_TOKEN_STOPSHIP = "4dGr0rI5RzO3e7ily9JN_SzoyBz9baDe5usS8XpSlE6";
 
     /**
@@ -23,8 +16,8 @@ public class Constants {
     /**
      * Default server values
      */
-    public static final String DEFAULT_SERVER_URL = "http://staging.live.jflei.com";
-    public static final String DEFAULT_PORT = "80";
+    public static final String DEFAULT_SERVER_URL = "https://live.cubing.net/api/v0/login"; // FIXME this is used elsewhere
+    public static final String DEFAULT_PORT = "443";
 
     /**
      * Server API endpoints

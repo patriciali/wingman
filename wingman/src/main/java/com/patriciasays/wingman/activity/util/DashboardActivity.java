@@ -22,10 +22,8 @@ public class DashboardActivity extends Activity {
     private static final String TAG = "DashboardActivity";
 
     private static final String[] DASHBOARD_ITEMS = {
-            "Setup flow",
             "Judging flow"};
     private static final Class<? extends Activity>[] DASHBOARD_ACTIVITIES = new Class[] {
-            ServerInfoActivity.class,
             IdActivity.class};
 
     private ListView mListView;

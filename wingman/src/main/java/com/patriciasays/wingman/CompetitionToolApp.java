@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.patriciasays.wingman.lib.MicrophoneStatusReceiver;
 import com.patriciasays.wingman.lib.NetworkStatusReceiver;
 
 public class CompetitionToolApp extends Application {
@@ -21,7 +20,6 @@ public class CompetitionToolApp extends Application {
 
         sInstance = this;
 
-        MicrophoneStatusReceiver.registerReceiver(this, new MicrophoneStatusReceiver());
         NetworkStatusReceiver.registerReceiver(this, new NetworkStatusReceiver());
     }
 
