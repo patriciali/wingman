@@ -1,4 +1,4 @@
-package com.patriciasays.wingman.activity.common;
+package com.patriciasays.wingman.activity.base;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.patriciasays.wingman.activity.setup;
+package com.patriciasays.wingman.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -28,13 +28,12 @@ public class LoginActivity extends Activity {
 
         @JavascriptInterface
         public void jsSetToken(String token) {
-            Log.d("fuck", "token " + token);
             setToken(token);
         }
 
         @JavascriptInterface
         public void log(String str) {
-            Log.d("log_fuck", str);
+            Log.d("CcmJsInterface.log", str);
         }
 
     }
@@ -45,33 +44,27 @@ public class LoginActivity extends Activity {
 
         setContentView(R.layout.login_activity);
 
-        mGetTokenWebView = (WebView) findViewById(R.id.get_token_webview);
-
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        mGetTokenWebView = (WebView) findViewById(R.id.get_token_webview);
         WebView.setWebContentsDebuggingEnabled(true);
 
-        String url = mSharedPreferences.getString(
-                Constants.URL_PREFERENCE_KEY, Constants.DEFAULT_SERVER_URL);
+        String url = Constants.DEFAULT_SERVER_URL + Constants.ROUTE_LOGIN;
         mGetTokenWebView.loadUrl(url);
         mGetTokenWebView.getSettings().setJavaScriptEnabled(true);
         mGetTokenWebView.addJavascriptInterface(
                 new CCMJavascriptInterface(), "AndroidFunction");
 
-        mGetTokenWebView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-
-            }
-
-        });
+        // this makes it so that links aren't opened in browser
+        mGetTokenWebView.setWebViewClient(new WebViewClient());
     }
 
     private synchronized void setToken(String token) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(Constants.AUTH_TOKEN_PREFERENCE_KEY, token);
         editor.commit();
+
+        SelectCompetitionActivity.start(this);
     }
 
 }

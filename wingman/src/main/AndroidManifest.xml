@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".activity.setup.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,32 +24,12 @@
         </activity>
 
         <activity
-            android:name=".activity.util.NetworkSettingsActivity"
+            android:name=".activity.base.NetworkSettingsActivity"
             android:label="@string/app_name" >
         </activity>
 
         <activity
-            android:name=".activity.judge.IdActivity"
-            android:label="@string/app_name" >
-        </activity>
-
-        <activity
-            android:name=".activity.judge.StackmatActivity"
-            android:label="@string/app_name" >
-        </activity>
-
-        <activity
-            android:name=".activity.judge.SubmitActivity"
-            android:label="@string/app_name" >
-        </activity>
-
-        <activity
-            android:name=".activity.setup.SelectCompetitionActivity"
-            android:label="@string/app_name" >
-        </activity>
-
-        <activity
-            android:name=".activity.util.DashboardActivity"
+            android:name=".activity.SelectCompetitionActivity"
             android:label="@string/app_name" >
         </activity>
 

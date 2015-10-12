@@ -1,5 +1,6 @@
-package com.patriciasays.wingman.activity.setup;
+package com.patriciasays.wingman.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,10 +13,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.patriciasays.wingman.R;
-import com.patriciasays.wingman.activity.util.DashboardActivity;
 import com.patriciasays.wingman.data.Competition;
-import com.patriciasays.wingman.activity.common.NeedsNetworkActivity;
-import com.patriciasays.wingman.server.CCMClientApi;
+import com.patriciasays.wingman.activity.base.NeedsNetworkActivity;
 import com.patriciasays.wingman.util.Constants;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class SelectCompetitionActivity extends NeedsNetworkActivity {
 
-    private static final String TAG = "SelectCompetitionActivity";
+    private static final String TAG = "SelectCompetition";
 
     private SharedPreferences mSharedPreferences;
 
@@ -33,6 +32,11 @@ public class SelectCompetitionActivity extends NeedsNetworkActivity {
     private List<Competition> mCompetitions;
 
     private View mPreviouslySelectedView;
+
+    public static void start(Activity caller) {
+        Intent intent = new Intent(caller, SelectCompetitionActivity.class);
+        caller.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,29 +68,6 @@ public class SelectCompetitionActivity extends NeedsNetworkActivity {
                 }
             }
         });
-
-        CCMClientApi.Listener<List<Competition>> listener =
-                new CCMClientApi.Listener<List<Competition>>() {
-            @Override
-            public void onResponse(List<Competition> response) {
-                mCompetitions = response;
-
-                List<String> competitionNames = new ArrayList<String>();
-                for (Competition comp : mCompetitions) {
-                    competitionNames.add(comp.getCompetitionName());
-                }
-                mListAdapter = new ArrayAdapter<String>(SelectCompetitionActivity.this,
-                        R.layout.wingman_list_item, competitionNames);
-                mListView.setAdapter(mListAdapter);
-            }
-        };
-        CCMClientApi.getInstance(this).competitionsList(listener);
-    }
-
-    public void finish(View view) {
-        // TODO
-        Intent intent = new Intent(this, DashboardActivity.class);
-        startActivity(intent);
     }
 
     private void updateSelectedButtonBackground(View view, boolean selected) {
